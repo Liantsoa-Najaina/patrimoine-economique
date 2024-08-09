@@ -17,7 +17,6 @@ function CalculerPatrimoine() {
     const [valeurPatrimoine, setValeurPatrimoine] = useState('');
 
     useEffect(() => {
-        // Calculate and set the default value when the component mounts
         const calculateDefaultValue = () => {
             const patrimoine = new Patrimoine("John Doe", arrayPossesions.slice(0, 7));
             const result = patrimoine.getValeur(new Date());

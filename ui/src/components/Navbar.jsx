@@ -9,7 +9,7 @@ export default function Title() {
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end">
                     <Navbar.Text>
-                        Signed in as: <a href="#login">Liantsoa Najaina</a>
+                        Signed in as: <a href="#login">John Doe</a>
                     </Navbar.Text>
                 </Navbar.Collapse>
             </Container>

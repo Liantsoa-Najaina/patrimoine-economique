@@ -1,22 +1,11 @@
-// THIS MAY CHANGE IN THE FUTURE
-// dateDebut = 01/01/2024
-// montant = 400_000
-// jour = 1
 import Possession from "./Possession.js";
-export default class Flux extends Possession {
-  // Si salaire => +
-  // Si train de vie => -
-  constructor(possesseur, libelle, valeur, dateDebut, dateFin, tauxAmortissement, jour) {
-    super(possesseur, libelle, valeur, dateDebut, dateFin, tauxAmortissement)
-    this.valeur = 0;
-    this.jour = jour;
-    // this.source = source; // null || Compte
-    // this.destination = destination; // Compte
-    this.dateDebut = dateDebut;
-    this.dateFin = dateFin;
-    this.valeurConstante = valeur
-  }
 
+export default class Flux extends Possession {
+  constructor(possesseur, libelle, valeur, dateDebut, dateFin, tauxAmortissement, jour, valeurConstante) {
+    super(possesseur, libelle, valeur, dateDebut, dateFin, tauxAmortissement);
+    this.jour = jour;
+    this.valeurConstante = valeurConstante;
+  }
 
   getValeur(date) {
     const nombreDeMois = (debut, dateEvaluation, jourJ) => {
@@ -37,10 +26,7 @@ export default class Flux extends Possession {
       return compteur;
     };
 
-    // Calculer le montant total sans modifier this.valeur
     const totalMois = nombreDeMois(this.dateDebut, date, this.jour);
-    const montantTotal = totalMois * this.valeurConstante;
-
-    return montantTotal;
+    return totalMois * this.valeurConstante;
   }
 }
