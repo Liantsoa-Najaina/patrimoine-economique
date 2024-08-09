@@ -1,78 +1,60 @@
 import Table from 'react-bootstrap/Table';
+import {useEffect, useState} from "react";
+import Possession from "../../../models/possessions/Possession.js"
+import CalculerPatrimoine from "./CalculerPatrimoine.jsx";
 
-function TableauPossessions() {
+
+let arrayPossesions = [];
+function TableauPossessions({ } ) {
+    const [possessions, setPossessions] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('../../public/data/data.json');
+                const data = await response.json();
+                setPossessions(data.find(item => item.model === "Patrimoine").data.possessions);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData().catch(error => console.error("Error in fetchData:", error));
+    }, []);
+
     return (
         <Table striped bordered hover>
             <thead>
             <tr>
-                <th>#</th>
                 <th>Libellé</th>
                 <th>Valeur initiale</th>
-                <th>Date début</th>
-                <th>Date fin</th>
-                <th>Taux amortissement</th>
+                <th>Début</th>
+                <th>Fin</th>
+                <th>Amortissement</th>
                 <th>Valeur actuelle</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Larry the Bird</td>
-                <td>@twitter</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Larry the Bird</td>
-                <td>@twitter</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Larry the Bird</td>
-                <td>@twitter</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Larry the Bird</td>
-                <td>@twitter</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-
+            {possessions.map((possession, index) => {
+                const valeur = new Possession(
+                    possession.possesseur, possession.libelle, possession.valeur, new Date(possession.dateDebut), new Date(possession.dateFin), possession.tauxAmortissement
+                );
+                arrayPossesions.push(valeur);
+                return (
+                    <tr key={index}>
+                        <td>{valeur.libelle}</td>
+                        <td>{valeur.valeur}</td>
+                        <td>{new Date(valeur.dateDebut).toLocaleDateString()}</td>
+                        <td>{'null'}</td>
+                        <td>{(valeur.tauxAmortissement !== null) ? valeur.tauxAmortissement : 0}</td>
+                        <td>{valeur.getValeur(new Date()).toFixed(2)}</td>
+                    </tr>
+                )
+            })}
             </tbody>
         </Table>
     );
 }
 
 export default TableauPossessions;
+export {arrayPossesions};
