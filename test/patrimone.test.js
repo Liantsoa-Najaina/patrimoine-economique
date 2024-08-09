@@ -10,7 +10,7 @@ const TYPE_ARGENT = {
     Courant: "Courant",
     Epargne: "Epargne",
     Espece: "Espece"
-  };
+};
 
 
 describe("Test about salary evaluation", () => {
