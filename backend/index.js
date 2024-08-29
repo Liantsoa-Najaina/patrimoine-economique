@@ -137,21 +137,58 @@ app.get('/patrimoine/:date', async (req, res) => {
         const patrimoineDate = new Date(date);
         const parsedData = await readData();
 
+        if (!parsedData || !parsedData.possessions) {
+            throw new Error('Invalid data format');
+        }
+
         let totalValue = 0;
+
         parsedData.possessions.forEach(possession => {
             const dateDebut = new Date(possession.dateDebut);
             const dateFin = possession.dateFin ? new Date(possession.dateFin) : new Date();
 
+            // Debugging output
+            console.log(`Possession: ${JSON.stringify(possession)}`);
+            console.log(`DateDebut: ${dateDebut.toISOString()}`);
+            console.log(`DateFin: ${dateFin.toISOString()}`);
+            console.log(`Patrimoine Date: ${patrimoineDate.toISOString()}`);
+
             if (dateDebut <= patrimoineDate && dateFin >= patrimoineDate) {
-                totalValue += possession.valeur; // Apply amortisation if needed here
+                let valueAtDate = possession.valeur;
+
+                // Debugging output
+                console.log(`Initial Value: ${valueAtDate}`);
+
+                if (possession.tauxAmortissement) {
+                    const duration = (dateFin - dateDebut) / (1000 * 60 * 60 * 24 * 365); // Duration in years
+                    const age = (patrimoineDate - dateDebut) / (1000 * 60 * 60 * 24 * 365); // Age of the possession in years
+
+                    console.log(`Duration: ${duration} years`);
+                    console.log(`Age: ${age} years`);
+
+                    if (duration > 0) {
+                        valueAtDate = possession.valeur * (1 - (age / duration) * (possession.tauxAmortissement / 100));
+                        valueAtDate = Math.max(valueAtDate, 0); // Ensure value is not negative
+                    }
+
+                    console.log(`Value at Date: ${valueAtDate}`);
+                }
+
+                totalValue += valueAtDate;
             }
         });
 
+        console.log(`Total Value: ${totalValue}`);
         res.status(200).json({ status: 200, valeurPatrimoine: totalValue });
     } catch (e) {
+        console.error(e); // Log the error for debugging
         res.status(500).json({ status: 500, message: 'Erreur lors de la lecture des données : ' + e.message });
     }
 });
+
+
+
+
 
 // POST /patrimoine/range : Get patrimoine value over a range
 app.post('/patrimoine/range', async (req, res) => {
