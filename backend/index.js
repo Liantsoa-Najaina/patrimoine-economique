@@ -36,7 +36,7 @@ app.get('/possession', (req, res) => {
 });
 
 // POST /possession : Add new possession
-app.post('/possession', async (req, res) => {
+app.post('/possession/create', async (req, res) => {
     try {
         const { libelle, valeur, dateDebut, tauxAmortissement } = req.body;
 
