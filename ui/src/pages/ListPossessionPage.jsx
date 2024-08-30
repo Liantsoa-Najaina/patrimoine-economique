@@ -1,103 +1,94 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
-import {useState} from "react";
-import { Form, Button, Row, Col } from 'react-bootstrap';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { Line } from 'react-chartjs-2';
+import React, { useEffect, useState } from 'react';
+import { Table, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import Flux from "../../../models/possessions/Flux.js";
 
-const PatrimoinePage = () => {
-    const [dateDebut, setDateDebut] = useState(new Date());
-    const [dateFin, setDateFin] = useState(new Date());
-    const [selectedJour, setSelectedJour] = useState(1);
-    const [patrimoineData, setPatrimoineData] = useState([]);
-    const [singleDate, setSingleDate] = useState(new Date());
-    const [singleDateValue, setSingleDateValue] = useState(null);
+const PossessionListPage = () => {
+    const [possessions, setPossessions] = useState([]);
+    const navigate = useNavigate();
 
-    const handleValidateRange = async () => {
-        // Fetch Patrimoine by Range using API
-        const response = await fetch('http://localhost:3000/patrimoine/range', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                type: 'month',
-                startDate: dateDebut.toISOString().split('T')[0],
-                endDate: dateFin.toISOString().split('T')[0],
-                jour: selectedJour,
-            }),
-        });
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/possession');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const possessions = await response.json();
+                setPossessions(possessions);
+            } catch (error) {
+                console.error('Error fetching possessions:', error);
+            }
+        };
 
-        const data = await response.json();
-        setPatrimoineData(data.patrimoineOverRange);
+
+
+        fetchData();
+    }, []);
+
+    const handleCreate = () => {
+        navigate('/possession/create');
     };
 
-    const handleValidateSingleDate = async () => {
-        // Fetch Patrimoine value at single date using API
-        const response = await fetch(`http://localhost:3000/patrimoine/${singleDate.toISOString().split('T')[0]}`);
-        const data = await response.json();
-        setSingleDateValue(data.totalValue);
+    const handleEdit = (libelle) => {
+        navigate(`/possession/${libelle}/update`);
+    };
+
+    const handleClose = async (libelle) => {
+        try {
+            const response = await fetch(`http://localhost:3000/possession/${libelle}/close`, { method: 'POST' });
+            const result = await response.json();
+            if (response.ok) {
+                setPossessions(possessions.filter(possession => possession.libelle !== libelle));
+            } else {
+                console.error(result.message);
+            }
+        } catch (error) {
+            console.error('Error closing possession:', error);
+        }
     };
 
     return (
-        <div>
-            <h2>Patrimoine</h2>
-            <Form>
-                <Row>
-                    <Col>
-                        <Form.Group controlId="formDateDebut">
-                            <Form.Label>Date Début</Form.Label>
-                            <DatePicker selected={dateDebut} onChange={setDateDebut} />
-                        </Form.Group>
-                    </Col>
-                    <Col>
-                        <Form.Group controlId="formDateFin">
-                            <Form.Label>Date Fin</Form.Label>
-                            <DatePicker selected={dateFin} onChange={setDateFin} />
-                        </Form.Group>
-                    </Col>
-                    <Col>
-                        <Form.Group controlId="formJour">
-                            <Form.Label>Jour</Form.Label>
-                            <Form.Control as="select" value={selectedJour} onChange={(e) => setSelectedJour(Number(e.target.value))}>
-                                {[...Array(31).keys()].map((n) => (
-                                    <option key={n + 1} value={n + 1}>{n + 1}</option>
-                                ))}
-                            </Form.Control>
-                        </Form.Group>
-                    </Col>
-                </Row>
-                <Button onClick={handleValidateRange}>Validate</Button>
-            </Form>
-            <div>
-                {patrimoineData.length > 0 && (
-                    <Line
-                        data={{
-                            labels: patrimoineData.map((item) => item.date.split('T')[0]),
-                            datasets: [
-                                {
-                                    label: 'Valeur Patrimoine',
-                                    data: patrimoineData.map((item) => item.totalValue),
-                                    fill: false,
-                                    backgroundColor: 'rgb(75, 192, 192)',
-                                    borderColor: 'rgba(75, 192, 192, 0.2)',
-                                },
-                            ],
-                        }}
-                    />
-                )}
-            </div>
-            <Form>
-                <Form.Group controlId="formSingleDate">
-                    <Form.Label>Date</Form.Label>
-                    <DatePicker selected={singleDate} onChange={setSingleDate} />
-                </Form.Group>
-                <Button onClick={handleValidateSingleDate}>Validate</Button>
-            </Form>
-            {singleDateValue !== null && <div>Valeur Patrimoine: {singleDateValue}</div>}
+        <div className="container mt-4">
+            <Button onClick={handleCreate} variant="primary" className="mb-4">
+                Create Possession
+            </Button>
+            <Table striped bordered hover>
+                <thead>
+                <tr>
+                    <th>Libelle</th>
+                    <th>Valeur</th>
+                    <th>Date Début</th>
+                    <th>Date Fin</th>
+                    <th>Taux</th>
+                    <th>Valeur Actuelle</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {possessions.map((possession) => (
+                    <tr key={possession.libelle}>
+                        <td>{possession.libelle}</td>
+                        <td>{possession.valeur}</td>
+                        <td>{possession.dateDebut}</td>
+                        <td>{possession.dateFin}</td>
+                        <td>{possession.tauxAmortissement}</td>
+                        <td>{possession instanceof Flux ? possession.valeurConstante : possession.valeur}</td>
+                        <td>
+                            <Button onClick={() => handleEdit(possession.libelle)} variant="warning" className="mr-2">
+                                Edit
+                            </Button>
+                            <Button onClick={() => handleClose(possession.libelle)} variant="danger">
+                                Close
+                            </Button>
+                        </td>
+                    </tr>
+                ))}
+                </tbody>
+            </Table>
         </div>
     );
 };
 
-export default PatrimoinePage;
+export default PossessionListPage;

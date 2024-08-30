@@ -4,7 +4,7 @@
   padding: 0 2rem;*/
   text-align: center;
   background: #d2d2d2;
-  height: 100%;
+  height: max-content;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -13,16 +13,16 @@
 .chart-container {
   flex-grow: 1 !important;;
   width: 100% !important;
-  max-width: 800px !important;  /* Set a max-width to control the chart's width */
-  max-height: 400px !important; /* Set a max-height to control the chart's height */
+  max-width: 800px !important;
+  max-height: 400px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  margin-top: 20px !important;  /* Optional: add some space above the chart */
+  margin-top: 20px !important;
 }
 
-/* Style for the chart itself */
+
 .chart-container canvas {
   width: 100% !important;
-  height: auto !important; /* Maintain aspect ratio */
+  height: auto !important;
 }
