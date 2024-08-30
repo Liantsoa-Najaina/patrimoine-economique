@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
     return (
-        <Navbar expand="xl" bg="primary" data-bs-theme="dark">
+        <Navbar bg="primary" data-bs-theme="dark" expand="lg">
             <Container>
-                <Navbar.Brand href="#home">Patrimoine Economique</Navbar.Brand>
+                <Navbar.Brand href="/">Patrimoine Economique</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link as={Link}>Patrimoine</Nav.Link>
-                        <Nav.Link as={Link}>Possession</Nav.Link>
+                        <Nav.Link as={Link} to="/patrimoine">Patrimoine</Nav.Link>
+                        <Nav.Link as={Link} to="/possession">Possessions</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
