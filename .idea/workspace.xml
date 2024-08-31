@@ -4,7 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="105795f5-8bfc-456b-abcb-af5dcbf13c71" name="Changes" comment="fix: (attempt) to fix unusable functionality" />
+    <list default="true" id="105795f5-8bfc-456b-abcb-af5dcbf13c71" name="Changes" comment="fix: (attempt) to fix unusable functionality">
+      <change afterPath="$PROJECT_DIR$/ui/src/assets/coins-3344603_1280.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/src/assets/list-2160914_1280.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/data/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/data.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/data/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/ui/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/Components/Button.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/Components/Button.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/Header/Menu.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/Header/Menu.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/Header/Patrimoine.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/Header/Patrimoine.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/Header/Possession.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/Header/Possession.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/Pages/ListPossession.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/Pages/ListPossession.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/main.jsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,6 +60,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "patrimoine-fullproject",
+    "last_opened_file_path": "/home/liantsoa/WebstormProjects/patrimoine-economique/ui/src/assets",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -53,16 +68,23 @@
     "nodejs_package_manager_path": "npm",
     "npm.dev.executor": "Run",
     "npm.serve.executor": "Run",
+    "npm.server.executor": "Run",
     "ts.external.directory.path": "/home/liantsoa/.local/share/JetBrains/Toolbox/apps/webstorm/plugins/javascript-plugin/jsLanguageServicesImpl/external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/ui/src/assets" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/backend" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/ui/src/pages" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.serve">
+  <component name="RunManager" selected="npm.server">
     <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/ui/package.json" />
       <command value="run" />
@@ -83,8 +105,19 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="server" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/ui/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="server" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.server" />
         <item itemvalue="npm.dev" />
         <item itemvalue="npm.serve" />
       </list>
@@ -111,6 +144,7 @@
       <workItem from="1725017924400" duration="9413000" />
       <workItem from="1725047428323" duration="7883000" />
       <workItem from="1725070515656" duration="3966000" />
+      <workItem from="1725074619301" duration="4148000" />
     </task>
     <task id="LOCAL-00001" summary="fix: fix the non-working endpoints: get '/patrimoine/date' and post '/patrimoine/range'">
       <option name="closed" value="true" />

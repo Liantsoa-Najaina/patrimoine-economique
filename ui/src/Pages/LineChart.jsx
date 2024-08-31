@@ -106,18 +106,18 @@ const LineChart = () => {
     <div className='p-8'>
       <form className='flex items-end py-4' onSubmit={handleSubmit}>
         <div className='mx-4'>
-          <h1>Date debut : </h1>
+          <p>Date debut : </p>
           <input type="date" className='border border-gray-600 py-2 px-4 rounded-lg' value={valueDebut} onChange={(ev) => setValueDebut(ev.target.value)} required />
         </div>
         <div className='mx-4'>
-          <h1>Date fin : </h1>
+          <p>Date fin : </p>
           <input type="date" className='border border-gray-600 py-2 px-4 rounded-lg' value={valueFin} onChange={(ev) => setValueFin(ev.target.value)} required />
         </div>
         <div className='mx-4'>
-          <h1>Jour : </h1>
+          <p>Jour : </p>
           <input type="number" className='border border-gray-600 py-2 pl-4 rounded-lg' value={valueJour} onChange={(ev) => setValueJour(ev.target.value)} required />
         </div>
-        <button className='bg-blue-600 mx-2 py-3 px-4 rounded-xl text-white' type='submit'>Range</button>
+        <button className='bg-blue-600 mx-2 py-2 px-3 rounded-xl text-white' type='submit'>Valider</button>
       </form>
       <div className='border my-6 h-96 w-full flex justify-center items-center Line'>
         <Line data={donne} className='w-full' />

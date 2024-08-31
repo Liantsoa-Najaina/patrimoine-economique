@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react'
 import LineChart from '../Pages/LineChart'
 import Possession from '../../../models/possessions/Possession';
@@ -52,23 +53,26 @@ export default function Patrimoine() {
   const patrimoine = new InstancePatrimoine(personne, possessions);
 
   return (
-    <>
-      <div>
-        <LineChart />
-      </div>
-      <div className='flex'>
-        <form onSubmit={handleDate} className="container px-8" >
-          <h1 className='text-xl py-4'>Selectionner la date : </h1>
-          <input type="date" onChange={(event) => setValue(event.target.value)} value={value} className='border border-gray-600 py-2 px-4 rounded-lg' />
-          <button className='bg-blue-600 mx-2 py-3 px-4 rounded-xl text-white' type='submit'>Valider</button>
-          <p className='text-xl py-4'>La valeur du patrimoine est :
-            <span className='font-semibold text-2xl mx-1'>
+      <>
+        <div className="d-flex justify-content-end mb-4" style={{marginTop: '20px', marginRight: '30px'}}>
+          <Button print={"Menu"} target={"/"}/>
+        </div>
+
+        <div>
+          <LineChart/>
+        </div>
+        <div className='flex'>
+          <form onSubmit={handleDate} className="container px-8">
+            <p className='text-xl py-4'>Selectionner une date : </p>
+            <input type="date" onChange={(event) => setValue(event.target.value)} value={value} className='border border-gray-600 py-2 px-4 rounded-lg'/>
+            <button className='bg-blue-600 mx-2 py-2 px-3 rounded-xl text-white' type='submit'>Valider</button>
+            <p className='text-xl py-4'>La valeur du patrimoine à cette date est :
+              <span className='font-semibold text-2xl mx-1'>
               {patrimoine.getValeur(new Date(date)).toFixed(0)}
             </span>
-          </p>
-        </form>
-        <Button target={"/"} print={"Menu"} />
-      </div>
-    </>
+            </p>
+          </form>
+        </div>
+      </>
   )
 }
