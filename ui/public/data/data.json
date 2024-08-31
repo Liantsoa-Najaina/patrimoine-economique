@@ -50,9 +50,19 @@
           "possesseur": {
             "nom": "John Doe"
           },
-          "libelle": "MacBook Pro",
-          "valeur": 4000000,
-          "dateDebut": "2023-12-25T00:00:00.000Z",
+          "libelle": "Moto",
+          "valeur": 2000000,
+          "dateDebut": "2024-08-13T00:00:00.000Z",
+          "dateFin": "2024-08-30T21:53:05.005Z",
+          "tauxAmortissement": 7
+        },
+        {
+          "possesseur": {
+            "nom": "John Doe"
+          },
+          "libelle": "Smartphone",
+          "valeur": 200000,
+          "dateDebut": "2024-08-18T00:00:00.000Z",
           "dateFin": null,
           "tauxAmortissement": 5
         },
@@ -60,25 +70,21 @@
           "possesseur": {
             "nom": "John Doe"
           },
-          "libelle": "Alternance",
-          "valeur": 0,
-          "dateDebut": "2022-12-31T21:00:00.000Z",
+          "libelle": "VTT",
+          "valeur": 2000000,
+          "dateDebut": "2024-08-17T00:00:00.000Z",
           "dateFin": null,
-          "tauxAmortissement": null,
-          "jour": 1,
-          "valeurConstante": 500000
+          "tauxAmortissement": 1
         },
         {
           "possesseur": {
             "nom": "John Doe"
           },
-          "libelle": "Survie",
-          "valeur": 0,
-          "dateDebut": "2022-12-31T21:00:00.000Z",
+          "libelle": "Vélo",
+          "valeur": 700000,
+          "dateDebut": "2024-08-17T00:00:00.000Z",
           "dateFin": null,
-          "tauxAmortissement": null,
-          "jour": 2,
-          "valeurConstante": -300000
+          "tauxAmortissement": 4
         }
       ]
     }

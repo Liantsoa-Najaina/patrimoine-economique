@@ -38,12 +38,15 @@ app.get('/possession', (req, res) => {
 
 // POST /possession : Add new possession
 app.post('/possession/create', async (req, res) => {
+    console.log('Request body:', req.body);
     try {
         const { libelle, valeur, dateDebut, tauxAmortissement } = req.body;
 
         if (!libelle || !valeur || !dateDebut || !tauxAmortissement) {
             return res.status(400).json({ status: 400, message: 'Tous les champs sont requis.' });
         }
+
+
 
         const parsedData = await readData();
         const possesseur = parsedData.possesseur;
