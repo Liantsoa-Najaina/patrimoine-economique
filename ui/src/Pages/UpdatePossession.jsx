@@ -1,23 +1,17 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react'
-import Button from '../Components/Button'
-import { useParams } from 'react-router-dom'
-// import axios from 'axios';
+import React, { useState } from 'react';
+import Button from '../Components/Button';
+import { useParams } from 'react-router-dom';
 
 export default function UpdatePossession() {
   const { libelle } = useParams();
 
-  let vide = "";
-
-  const libellePrev = libelle.split('').slice(1, libelle.length);
-  for (let index = 0; index < libellePrev.length; index++) {
-    const element = libellePrev[index];
-    vide += element;
-  }
+  // Generate libellePrev by removing the first character
+  const libellePrev = libelle.slice(1);
 
   const [newData, setNewData] = useState({
-    "libelle": "",
-    "dateFin": "",
+    libelle: "",
+    dateFin: "",
   });
 
   const handleChange = (e) => {
@@ -42,31 +36,55 @@ export default function UpdatePossession() {
       if (response.ok) {
         const data = await response.json();
         console.log('Réponse du serveur:', data);
-        alert("Possession update successfully")
+        alert("Possession updated successfully");
       } else {
         throw new Error(`Erreur HTTP! statut: ${response}`);
       }
     } catch (error) {
       console.error('Il y a eu une erreur lors de la mise à jour:', error);
-      alert("Erreur, Veuiller ressayer");
+      alert("Erreur, veuillez réessayer");
     }
   };
 
   return (
-    <div>
-      <h1 className="text-3xl py-2">Update possession : </h1>
-      <form className='px-32' onSubmit={handleSubmit}>
-        <div className='py-4 px-2'>
-          <h1>Libelle : </h1>
-          <input type="text" className='border border-1 border-black rounded pl-4 py-2' placeholder={vide} name="libelle" value={newData.libelle} onChange={handleChange} required />
+      <div className="container my-4">
+        <h1 className="text-center text-3xl mb-6">Update Possession</h1>
+        <form className="bg-white p-6 rounded-lg shadow-md" onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="libelle" className="block text-lg font-medium text-gray-700">Libelle:</label>
+            <input
+                type="text"
+                id="libelle"
+                className="mt-1 block w-full border border-gray-300 rounded-lg py-2 px-4 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                placeholder={libellePrev}
+                name="libelle"
+                value={newData.libelle}
+                onChange={handleChange}
+                required
+            />
+          </div>
+          <div className="mb-6">
+            <label htmlFor="dateFin" className="block text-lg font-medium text-gray-700">Date Fin:</label>
+            <input
+                type="date"
+                id="dateFin"
+                className="mt-1 block w-full border border-gray-300 rounded-lg py-2 px-4 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                name="dateFin"
+                value={newData.dateFin}
+                onChange={handleChange}
+                required
+            />
+          </div>
+          <button
+              type="submit"
+              className="w-full bg-blue-600 py-3 px-4 rounded-xl text-white font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+          >
+            Update
+          </button>
+        </form>
+        <div className="text-center mt-4">
+          <Button print={"Retour"} target={"/possession"} />
         </div>
-        <div className='py-4 px-2'>
-          <h1>Date Fin : </h1>
-          <input type="date" className='border border-1 border-black rounded px-9 py-2' name="dateFin" value={newData.dateFin} onChange={handleChange} required />
-        </div>
-        <button type="submit" className="bg-blue-600 py-4 px-7 rounded-xl text-white">Update</button>
-      </form>
-      <Button print={"Retour"} target={"/possession"} />
-    </div>
-  )
+      </div>
+  );
 }

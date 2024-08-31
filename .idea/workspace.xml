@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="105795f5-8bfc-456b-abcb-af5dcbf13c71" name="Changes" comment="fix: (attempt) to fix unusable functionality">
+    <list default="true" id="105795f5-8bfc-456b-abcb-af5dcbf13c71" name="Changes" comment="fix: improve styling">
       <change afterPath="$PROJECT_DIR$/ui/src/assets/coins-3344603_1280.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/ui/src/assets/list-2160914_1280.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
@@ -16,7 +16,9 @@
       <change beforePath="$PROJECT_DIR$/ui/src/Header/Menu.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/Header/Menu.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/src/Header/Patrimoine.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/Header/Patrimoine.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/src/Header/Possession.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/Header/Possession.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/Pages/LineChart.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/Pages/LineChart.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/src/Pages/ListPossession.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/Pages/ListPossession.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/Pages/UpdatePossession.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/Pages/UpdatePossession.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/src/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/main.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,23 +58,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "patrimoine-fullproject",
-    "last_opened_file_path": "/home/liantsoa/WebstormProjects/patrimoine-economique/ui/src/assets",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.dev.executor": "Run",
-    "npm.serve.executor": "Run",
-    "npm.server.executor": "Run",
-    "ts.external.directory.path": "/home/liantsoa/.local/share/JetBrains/Toolbox/apps/webstorm/plugins/javascript-plugin/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;patrimoine-fullproject&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/liantsoa/WebstormProjects/patrimoine-economique/ui/src/assets&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;npm.serve.executor&quot;: &quot;Run&quot;,
+    &quot;npm.server.executor&quot;: &quot;Run&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/liantsoa/.local/share/JetBrains/Toolbox/apps/webstorm/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/ui/src/assets" />
@@ -144,7 +146,7 @@
       <workItem from="1725017924400" duration="9413000" />
       <workItem from="1725047428323" duration="7883000" />
       <workItem from="1725070515656" duration="3966000" />
-      <workItem from="1725074619301" duration="4148000" />
+      <workItem from="1725074619301" duration="4512000" />
     </task>
     <task id="LOCAL-00001" summary="fix: fix the non-working endpoints: get '/patrimoine/date' and post '/patrimoine/range'">
       <option name="closed" value="true" />
@@ -214,10 +216,10 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fix: fix the non-working endpoints: get '/patrimoine/date' and post '/patrimoine/range'" />
     <MESSAGE value="chores: start backend integration with ui" />
-    <MESSAGE value="fix: improve styling" />
     <MESSAGE value="fix: fix non working links in Header components" />
     <MESSAGE value="feat: add the list of possessions" />
     <MESSAGE value="fix: (attempt) to fix unusable functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: (attempt) to fix unusable functionality" />
+    <MESSAGE value="fix: improve styling" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: improve styling" />
   </component>
 </project>
