@@ -84,48 +84,71 @@ app.put('/possession/:libelle/update', async (req, res) => {
 		const { libelle } = req.params;
 		const { newLibelle, dateFin } = req.body;
 
-		const fileContent = await readFile(filePath, 'utf8');
-		const jsonData = JSON.parse(fileContent);
+		const fileContent = await fs.readFile(filePath, 'utf8');
+		const data = JSON.parse(fileContent);
 
-		const possession = jsonData[1].data.possessions.find(p => p.libelle === libelle);
+		// Find the index of the "Patrimoine" model in the JSON data
+		const patrimoineIndex = data.findIndex(item => item.model === 'Patrimoine');
+		if (patrimoineIndex === -1) {
+			return res.status(404).json({ message: "Patrimoine not found." });
+		}
 
+		// Access the possessions array
+		const possessions = data[patrimoineIndex].data.possessions;
+
+		// Find the possession to update
+		const possession = possessions.find(p => p.libelle === libelle);
 		if (!possession) {
 			return res.status(404).json({ message: "Possession non trouvée" });
 		}
 
+		// Update the possession's fields
 		possession.libelle = newLibelle || possession.libelle;
 		possession.dateFin = dateFin ? new Date(dateFin) : possession.dateFin;
 
-		await writeFile(filePath, JSON.stringify(jsonData, null, 2), 'utf8');
+		// Write the updated data back to the file
+		await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf8');
 
+		// Send success response
 		res.status(200).json({ message: "Mise à jour de la possession effectuée" });
 	} catch (err) {
 		res.status(500).json({ message: 'Erreur lors de la mise à jour des données: ' + err.message });
 	}
 });
 
+
 // Mets fin à une possession
 app.put('/possession/:libelle/close', async (req, res) => {
 	try {
-		const filePath = path.join(__dirname, 'data/data.json');
-		const result = await readFile(filePath, 'utf8');
-		const jsonData = JSON.parse(result);
+		const fileData = fileURLToPath(import.meta.url);
+		const dirname = path.dirname(fileData);
+		const filePath = path.join(dirname, 'data/data.json');
 
-		const { possesseur, possessions } = jsonData.data;
-		const patrimoine = new Patrimoine(possesseur, possessions);
+		const fileContent = await fs.readFile(filePath, 'utf8');
+		const data = JSON.parse(fileContent);
 
-		const possessionToClose = possessions.find(p => p.libelle === req.params.libelle);
-		if (possessionToClose) {
-			possessionToClose.dateFin = new Date();
+		const patrimoineIndex = data.findIndex(item => item.model === 'Patrimoine');
+		if (patrimoineIndex === -1) {
+			return res.status(404).json({ message: 'Patrimoine not found.' });
 		}
 
-		await writeFile(filePath, JSON.stringify(jsonData, null, 2));
+		const possessions = data[patrimoineIndex].data.possessions;
 
-		res.status(200).json({ message: 'Possession closed successfully' });
+		const possessionToClose = possessions.find(p => p.libelle === req.params.libelle);
+		if (!possessionToClose) {
+			return res.status(404).json({ message: 'Possession non trouvée' });
+		}
+
+		possessionToClose.dateFin = new Date();
+
+		await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf8');
+
+		res.status(200).json({ message: 'Possession closed successfully.' });
 	} catch (err) {
-		res.status(500).json({ error: 'Erreur lors de la fermeture de la possession' });
+		res.status(500).json({ error: 'Erreur lors de la fermeture de la possession: ' + err.message });
 	}
 });
+
 
 
 // Calcule la valeur du patrimoine à une certaine date
