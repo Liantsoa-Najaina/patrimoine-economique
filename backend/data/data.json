@@ -75,16 +75,6 @@
           "dateDebut": "2022-12-29T00:00:00.000Z",
           "dateFin": null,
           "tauxAmortissement": 15
-        },
-        {
-          "possesseur": {
-            "nom": "John Doe"
-          },
-          "libelle": "Car",
-          "valeur": 25000000,
-          "dateDebut": "2024-04-10T10:00:00.000Z",
-          "dateFin": null,
-          "tauxAmortissement": 5
         }
       ]
     }

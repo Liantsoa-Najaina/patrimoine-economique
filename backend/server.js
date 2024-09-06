@@ -5,6 +5,7 @@ import cors from 'cors';
 import { readFile, writeFile } from './data/index.js';
 import fs from "node:fs/promises";
 import Patrimoine from "../models/Patrimoine.js";
+import Possession from "../models/possessions/Possession.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -37,30 +38,38 @@ app.get('/possession', async (req, res) => {
 // Création d'une nouvelle possession
 app.post('/possession/create', async (req, res) => {
 	try {
-		const filePath = path.join(__dirname, 'data/data.json');
-		const result = await readFile(filePath, 'utf8');
-		const jsonData = JSON.parse(result);
+		const fileData = fileURLToPath(import.meta.url);
+		const dirname = path.dirname(fileData);
+		const filePath = path.join(dirname, 'data/data.json');
 
-		const { possesseur, possessions } = jsonData.data;
-		const patrimoine = new Patrimoine(possesseur, possessions);
+		const fileContent = await fs.readFile(filePath, 'utf8');
+		const data = JSON.parse(fileContent);
+
+		const request = req.body;
+
+		const patrimoineIndex = data.findIndex(item => item.model === 'Patrimoine');
+		if (patrimoineIndex === -1) {
+			return res.status(404).send('Patrimoine not found.');
+		}
+
+		const possesseur = data[patrimoineIndex].data.possesseur;
 
 		const newPossession = {
 			possesseur: possesseur,
-			libelle: req.body.libelle,
-			valeur: parseInt(req.body.valeur),
-			dateDebut: new Date(req.body.dateDebut),
+			libelle: request.libelle,
+			valeur: parseInt(request.valeur),
+			dateDebut: new Date(request.dateDebut),
 			dateFin: null,
-			tauxAmortissement: parseInt(req.body.tauxAmortissement)
+			tauxAmortissement: parseInt(request.tauxAmortissement)
 		};
 
-		patrimoine.addPossession(newPossession);
+		data[patrimoineIndex].data.possessions.push(newPossession);
 
-		jsonData.data.possessions = patrimoine.possessions;
-		await writeFile(filePath, JSON.stringify(jsonData, null, 2));
+		await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf8');
 
-		res.status(201).json({ message: 'Nouvelle possession ajoutée avec succès.' });
-	} catch (err) {
-		res.status(500).json({ error: 'Erreur lors de l\'ajout de la possession' });
+		res.status(201).send('Nouvelle possession ajoutée avec succès.');
+	} catch (error) {
+		res.status(500).send('Erreur lors de la création de la possession: ' + error);
 	}
 });
 
@@ -98,7 +107,7 @@ app.put('/possession/:libelle/update', async (req, res) => {
 // Mets fin à une possession
 app.put('/possession/:libelle/close', async (req, res) => {
 	try {
-		const filePath = path.join(__dirname, '../data/data.json');
+		const filePath = path.join(__dirname, 'data/data.json');
 		const result = await readFile(filePath, 'utf8');
 		const jsonData = JSON.parse(result);
 
@@ -124,7 +133,7 @@ app.get('/patrimoine/:date', async (req, res) => {
 	try {
 		const fileData = fileURLToPath(import.meta.url);
 		const dirname = path.dirname(fileData);
-		const filePath = path.join(dirname, '../data/data.json');
+		const filePath = path.join(dirname, 'data/data.json');
 
 		const data = await readFile(filePath, 'utf8');
 		const jsonData = JSON.parse(data);
@@ -137,7 +146,7 @@ app.get('/patrimoine/:date', async (req, res) => {
 		const date = new Date(dateParam);
 
 		if (isNaN(date.getTime())) {
-			return res.status(400).json({ message: 'Invalid date format. Use YYYY-MM-DD.' });
+			return res.status(400).json({ message: 'Format de la date invalide, utiliser YYYY-MM-DD.' });
 		}
 
 		const totalValue = patrimoine.getValeur(date);
