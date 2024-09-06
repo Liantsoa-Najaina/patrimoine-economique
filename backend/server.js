@@ -39,12 +39,19 @@ app.post('/possession/create', async (req, res) => {
 	try {
 		const fileData = fileURLToPath(import.meta.url);
 		const dirname = path.dirname(fileData);
-		const filePath = path.join(dirname, '../data/data.json');
+		const filePath = path.join(dirname, 'data/data.json');
 
-		const data = await readFile(filePath, 'utf8');
+		const fileContent = await fs.readFile(filePath, 'utf8');
+		const data = JSON.parse(fileContent);
 
 		const request = req.body;
-		const possesseur = data.data.possesseur;
+
+		const patrimoineIndex = data.findIndex(item => item.model === 'Patrimoine');
+		if (patrimoineIndex === -1) {
+			return res.status(404).send('Patrimoine not found.');
+		}
+
+		const possesseur = data[patrimoineIndex].data.possesseur;
 
 		const newPossession = {
 			possesseur: possesseur,
@@ -55,17 +62,13 @@ app.post('/possession/create', async (req, res) => {
 			tauxAmortissement: parseInt(request.tauxAmortissement)
 		};
 
-		data.data.possessions.push(newPossession)
+		data[patrimoineIndex].data.possessions.push(newPossession);
 
-		const newPatrimoine = {
-			possesseur: possesseur,
-			possessions: data.data.possessions
-		}
-		await writeFile(filePath, newPatrimoine);
+		await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf8');
 
 		res.status(201).send('Nouvelle possession ajoutée avec succès.');
 	} catch (error) {
-		res.status(500).send(error);
+		res.status(500).send('Erreur lors de la création de la possession: ' + error);
 	}
 });
 

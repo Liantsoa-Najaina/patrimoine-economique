@@ -4,28 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="105795f5-8bfc-456b-abcb-af5dcbf13c71" name="Changes" comment="initial commit">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/src/containers/PossessionContainer.js" afterDir="false" />
+    <list default="true" id="105795f5-8bfc-456b-abcb-af5dcbf13c71" name="Changes" comment="fix: improve endpoints and separate the smart components form the dumb one">
+      <change afterPath="$PROJECT_DIR$/ui/src/components/PossessionCreationForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/data/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/data/data.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/data/data.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/data/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/instance.js" beforeDir="false" afterPath="$PROJECT_DIR$/instance.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/Components/Button.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/Components/Result.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/Header/Menu.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/Header/Patrimoine.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/Header/Possession.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/Pages/CreatePossession.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/Pages/LineChart.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/Pages/ListPossession.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/Pages/UpdatePossession.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/main.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/ui/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/containers/PossessionContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/containers/PossessionContainer.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,8 +21,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JSX File" />
         <option value="JavaScript File" />
+        <option value="JSX File" />
       </list>
     </option>
   </component>
@@ -66,6 +52,7 @@
     <option name="autoscrollToSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
@@ -77,15 +64,17 @@
     "git-widget-placeholder": "patrimoine-fullproject",
     "last_opened_file_path": "/home/liantsoa/WebstormProjects/patrimoine",
     "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.stylelint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.stylelint": "",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "npm.dev.executor": "Run",
     "npm.serve.executor": "Run",
     "npm.server.executor": "Run",
     "npm.start.executor": "Run",
-    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.Rainbow Brackets",
+    "settings.editor.selected.configurable": "configurable.tailwindcss",
     "ts.external.directory.path": "/home/liantsoa/.local/share/JetBrains/Toolbox/apps/webstorm/plugins/javascript-plugin/jsLanguageServicesImpl/external",
     "vue.rearranger.settings.migration": "true"
   }
@@ -226,7 +215,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725621604819</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="fix: improve endpoints and separate the smart components form the dumb one">
+      <option name="closed" value="true" />
+      <created>1725624482353</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1725624482353</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -252,6 +249,7 @@
     <MESSAGE value="fix: (attempt) to fix unusable functionality" />
     <MESSAGE value="fix: improve styling" />
     <MESSAGE value="initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial commit" />
+    <MESSAGE value="fix: improve endpoints and separate the smart components form the dumb one" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: improve endpoints and separate the smart components form the dumb one" />
   </component>
 </project>
