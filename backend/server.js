@@ -2,153 +2,161 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
-import { readFile, writeFile } from '../data/index.js';
+import { readFile, writeFile } from './data/index.js';
+import fs from "node:fs/promises";
+import err from "mocha/lib/pending.js";
 
 const app = express();
-const port = 5000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
 
-app.get('/possession', async (req, res) => {
-  try {
-    const fileData = fileURLToPath(import.meta.url);
-    const dirname = path.dirname(fileData);
-    const filePath = path.join(dirname, '../data/data.json');
-    const data = await readFile(filePath, 'utf8');
 
-    if (data.status === 'OK') {
-      res.json(data.data);
-    } else {
-      res.json({ message: error });
-    }
-  } catch (error) {
-    res.status(500).send('Erreur lors de la lecture des données : ' + error);
-  }
+app.get('/possession', async (req, res) => {
+	try {
+		const fileData = fileURLToPath(import.meta.url);
+		const dirname = path.dirname(fileData);
+		const filePath = path.join(dirname, 'data/data.json');
+
+		const data = await fs.readFile(filePath, 'utf8');
+		const jsonData = JSON.parse(data);
+
+		const patrimoine = jsonData.find(item => item.model === 'Patrimoine');
+
+		if (patrimoine && patrimoine.data && patrimoine.data.possessions) {
+			res.json(patrimoine.data.possessions);
+		} else {
+			res.status(404).json({ message: "Liste des possessions introuvable" });
+		}
+	} catch (error) {
+		res.status(500).send('Erreur lors de la lecture des données : ' + error);
+	}
 });
 
+
 app.post('/possession/create', async (req, res) => {
-  try {
-    const fileData = fileURLToPath(import.meta.url);
-    const dirname = path.dirname(fileData);
-    const filePath = path.join(dirname, '../data/data.json');
+	try {
+		const fileData = fileURLToPath(import.meta.url);
+		const dirname = path.dirname(fileData);
+		const filePath = path.join(dirname, '../data/data.json');
 
-    const data = await readFile(filePath, 'utf8');
+		const data = await readFile(filePath, 'utf8');
 
-    const request = req.body;
-    const possesseur = data.data.possesseur;
+		const request = req.body;
+		const possesseur = data.data.possesseur;
 
-    const newPossession = {
-      possesseur: possesseur,
-      libelle: request.libelle,
-      valeur: parseInt(request.valeur),
-      dateDebut: new Date(request.dateDebut),
-      dateFin: null,
-      tauxAmortissement: parseInt(request.tauxAmortissement)
-    };
+		const newPossession = {
+			possesseur: possesseur,
+			libelle: request.libelle,
+			valeur: parseInt(request.valeur),
+			dateDebut: new Date(request.dateDebut),
+			dateFin: null,
+			tauxAmortissement: parseInt(request.tauxAmortissement)
+		};
 
-    data.data.possessions.push(newPossession)
+		data.data.possessions.push(newPossession)
 
-    const newPatrimoine = {
-      possesseur: possesseur,
-      possessions: data.data.possessions
-    }
-    writeFile(filePath, newPatrimoine);
+		const newPatrimoine = {
+			possesseur: possesseur,
+			possessions: data.data.possessions
+		}
+		await writeFile(filePath, newPatrimoine);
 
-    res.status(201).send('Nouvelle possession ajoutée avec succès.');
-  } catch (error) {
-    res.status(500).send(error);
-  }
+		res.status(201).send('Nouvelle possession ajoutée avec succès.');
+	} catch (error) {
+		res.status(500).send(error);
+	}
 });
 
 app.put('/possession/:libelle/update', async (req, res) => {
-  try {
-    const fileData = fileURLToPath(import.meta.url);
-    const dirname = path.dirname(fileData);
-    const filePath = path.join(dirname, '../data/data.json');
+	try {
+		const fileData = fileURLToPath(import.meta.url);
+		const dirname = path.dirname(fileData);
+		const filePath = path.join(dirname, '../data/data.json');
 
-    const donnes = req.body;
-    const { libelle } = req.params;
+		const donnes = req.body;
+		const { libelle } = req.params;
 
-    let newLibelle = "";
+		let newLibelle = "";
 
-    const libellePrev = libelle.split('').slice(1, libelle.length);
-    for (let index = 0; index < libellePrev.length; index++) {
-      const element = libellePrev[index];
-      newLibelle += element;
-    }
+		const libellePrev = libelle.split('').slice(1, libelle.length);
+		for (let index = 0; index < libellePrev.length; index++) {
+			const element = libellePrev[index];
+			newLibelle += element;
+		}
 
-    const result = await readFile(filePath);
+		const result = await readFile(filePath);
 
-    if (result.status === 'OK') {
-      const data = result.data;
-      const possession = data.possessions.find(p => p.libelle === newLibelle);
+		if (result.status === 'OK') {
+			const data = result.data;
+			const possession = data.possessions.find(p => p.libelle === newLibelle);
 
-      possession.libelle = donnes.libelle;
-      possession.dateFin = new Date(donnes.dateFin);
+			possession.libelle = donnes.libelle;
+			possession.dateFin = new Date(donnes.dateFin);
 
-      await writeFile(filePath, data);
+			await writeFile(filePath, data);
 
-      res.status(200).json({ message: "Update successfully" });
-    } else {
-      res.status(500).json({ message: "Erreur" });
-    }
-  } catch (err) {
-    return res.status(500).json({ message: 'Erreur lors de l\'analyse du fichier JSON.' });
-  }
+			res.status(200).json({ message: "Update successfully" });
+		} else {
+			res.status(500).json({ message: "Erreur" });
+		}
+	} catch (err) {
+		return res.status(500).json({ message: 'Erreur lors de l\'analyse du fichier JSON.' });
+	}
 });
 
 app.put('/possession/:libelle/close', async (req, res) => {
-  try {
-    const fileData = fileURLToPath(import.meta.url);
-    const dirname = path.dirname(fileData);
-    const filePath = path.join(dirname, '../data/data.json');
+	try {
+		const fileData = fileURLToPath(import.meta.url);
+		const dirname = path.dirname(fileData);
+		const filePath = path.join(dirname, '../data/data.json');
 
-    const { libelle } = req.params;
+		const { libelle } = req.params;
 
-    let newLibelle = "";
+		let newLibelle = "";
 
-    const libellePrev = libelle.split('').slice(1, libelle.length);
-    for (let index = 0; index < libellePrev.length; index++) {
-      const element = libellePrev[index];
-      newLibelle += element;
-    }
-    const result = await readFile(filePath);
-    if (result.status === 'OK') {
-      const data = result.data;
-      const possession = data.possessions.find(p => p.libelle === newLibelle );
+		const libellePrev = libelle.split('').slice(1, libelle.length);
+		for (let index = 0; index < libellePrev.length; index++) {
+			const element = libellePrev[index];
+			newLibelle += element;
+		}
+		const result = await readFile(filePath);
+		if (result.status === 'OK') {
+			const data = result.data;
+			const possession = data.possessions.find(p => p.libelle === newLibelle );
 
-      possession.dateFin = new Date();
+			possession.dateFin = new Date();
 
-      await writeFile(filePath, data);
+			await writeFile(filePath, data);
 
-      res.status(200).json({ message: "Possession Closing" });
-    } else {
-      res.status(500).json({ message: "Erreur" });
-    }
-  } catch (err) {
-    res.status(500).send(err);
-  }
+			res.status(200).json({ message: "Possession Closing" });
+		} else {
+			res.status(500).json({ message: "Erreur" });
+		}
+	} catch (err) {
+		res.status(500).send(err);
+	}
 });
 
 app.get('/patrimoine', async (req, res) => {
-  try {
-    const fileData = fileURLToPath(import.meta.url);
-    const dirname = path.dirname(fileData);
-    const filePath = path.join(dirname, '../data/data.json');
+	try {
+		const fileData = fileURLToPath(import.meta.url);
+		const dirname = path.dirname(fileData);
+		const filePath = path.join(dirname, '../data/data.json');
 
-    const result = await readFile(filePath);
-    if (result.status === 'OK') {
-      const data = result.data;
-      res.status(200).json({data: data});
-    } else {
-      res.status(500).json({message: 'Erreur sur la lecture de donne'});
-    }
-  } catch (err) {
-    res.status(500).json({message: err})
-  }
+		const result = await readFile(filePath);
+		if (result.status === 'OK') {
+			const data = result.data;
+			res.status(200).json({data: data});
+		} else {
+			res.status(500).json({message: 'Erreur sur la lecture de donne'});
+		}
+	} catch (err) {
+		res.status(500).json({message: err})
+	}
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(PORT, () => {
+	console.log(`Server is running on http://localhost:${PORT}`);
 });

@@ -4,21 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="105795f5-8bfc-456b-abcb-af5dcbf13c71" name="Changes" comment="fix: improve styling">
-      <change afterPath="$PROJECT_DIR$/ui/src/assets/coins-3344603_1280.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/src/assets/list-2160914_1280.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="105795f5-8bfc-456b-abcb-af5dcbf13c71" name="Changes" comment="initial commit">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/src/containers/PossessionContainer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/data/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/data.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/data/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/ui/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/Components/Button.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/Components/Button.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/Header/Menu.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/Header/Menu.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/Header/Patrimoine.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/Header/Patrimoine.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/Header/Possession.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/Header/Possession.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/Pages/LineChart.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/Pages/LineChart.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/Pages/ListPossession.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/Pages/ListPossession.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/Pages/UpdatePossession.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/Pages/UpdatePossession.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/data/data.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/data/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/instance.js" beforeDir="false" afterPath="$PROJECT_DIR$/instance.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/Components/Button.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/Components/Result.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/Header/Menu.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/Header/Patrimoine.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/Header/Possession.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/Pages/CreatePossession.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/Pages/LineChart.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/Pages/ListPossession.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/Pages/UpdatePossession.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/src/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/main.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -29,8 +35,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="JSX File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -53,28 +59,37 @@
   &quot;associatedIndex&quot;: 5
 }</component>
   <component name="ProjectId" id="2lLkRYxgT782d3l8hfX8jSsBvun" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="autoscrollToSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;patrimoine-fullproject&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/liantsoa/WebstormProjects/patrimoine-economique/ui/src/assets&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;npm.serve.executor&quot;: &quot;Run&quot;,
-    &quot;npm.server.executor&quot;: &quot;Run&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/home/liantsoa/.local/share/JetBrains/Toolbox/apps/webstorm/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Node.js.server.mjs.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "patrimoine-fullproject",
+    "last_opened_file_path": "/home/liantsoa/WebstormProjects/patrimoine",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.dev.executor": "Run",
+    "npm.serve.executor": "Run",
+    "npm.server.executor": "Run",
+    "npm.start.executor": "Run",
+    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.Rainbow Brackets",
+    "ts.external.directory.path": "/home/liantsoa/.local/share/JetBrains/Toolbox/apps/webstorm/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/ui/src/assets" />
@@ -82,33 +97,15 @@
       <recent name="$PROJECT_DIR$/backend" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend" />
+      <recent name="$PROJECT_DIR$/data" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/ui/src/pages" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.server">
-    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/ui/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="dev" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <configuration name="serve" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/backend/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="serve" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="npm.start">
     <configuration name="server" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/ui/package.json" />
+      <package-json value="$PROJECT_DIR$/backend/package.json" />
       <command value="run" />
       <scripts>
         <script value="server" />
@@ -117,11 +114,20 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.start" />
         <item itemvalue="npm.server" />
-        <item itemvalue="npm.dev" />
-        <item itemvalue="npm.serve" />
       </list>
     </recent_temporary>
   </component>
@@ -196,7 +202,31 @@
       <option name="project" value="LOCAL" />
       <updated>1725074378886</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="fix: improve styling">
+      <option name="closed" value="true" />
+      <created>1725614072043</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1725614072043</updated>
+    </task>
+    <task id="LOCAL-00008" summary="initial commit">
+      <option name="closed" value="true" />
+      <created>1725614643472</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1725614643472</updated>
+    </task>
+    <task id="LOCAL-00009" summary="initial commit">
+      <option name="closed" value="true" />
+      <created>1725621604819</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1725621604819</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -214,12 +244,14 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="fix: fix the non-working endpoints: get '/patrimoine/date' and post '/patrimoine/range'" />
     <MESSAGE value="chores: start backend integration with ui" />
     <MESSAGE value="fix: fix non working links in Header components" />
     <MESSAGE value="feat: add the list of possessions" />
     <MESSAGE value="fix: (attempt) to fix unusable functionality" />
     <MESSAGE value="fix: improve styling" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: improve styling" />
+    <MESSAGE value="initial commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="initial commit" />
   </component>
 </project>
