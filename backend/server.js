@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import cors from 'cors';
 import { readFile, writeFile } from './data/index.js';
 import fs from "node:fs/promises";
+import Patrimoine from "../models/Patrimoine.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -36,47 +37,40 @@ app.get('/possession', async (req, res) => {
 // Création d'une nouvelle possession
 app.post('/possession/create', async (req, res) => {
 	try {
-		const fileData = fileURLToPath(import.meta.url);
-		const dirname = path.dirname(fileData);
-		const filePath = path.join(dirname, 'data/data.json');
+		const filePath = path.join(__dirname, 'data/data.json');
+		const result = await readFile(filePath, 'utf8');
+		const jsonData = JSON.parse(result);
 
-		const fileContent = await fs.readFile(filePath, 'utf8');
-		const data = JSON.parse(fileContent);
-
-		const request = req.body;
-
-		const patrimoineIndex = data.findIndex(item => item.model === 'Patrimoine');
-		if (patrimoineIndex === -1) {
-			return res.status(404).send('Patrimoine not found.');
-		}
-
-		const possesseur = data[patrimoineIndex].data.possesseur;
+		const { possesseur, possessions } = jsonData.data;
+		const patrimoine = new Patrimoine(possesseur, possessions);
 
 		const newPossession = {
 			possesseur: possesseur,
-			libelle: request.libelle,
-			valeur: parseInt(request.valeur),
-			dateDebut: new Date(request.dateDebut),
+			libelle: req.body.libelle,
+			valeur: parseInt(req.body.valeur),
+			dateDebut: new Date(req.body.dateDebut),
 			dateFin: null,
-			tauxAmortissement: parseInt(request.tauxAmortissement)
+			tauxAmortissement: parseInt(req.body.tauxAmortissement)
 		};
 
-		data[patrimoineIndex].data.possessions.push(newPossession);
+		patrimoine.addPossession(newPossession);
 
-		await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf8');
+		jsonData.data.possessions = patrimoine.possessions;
+		await writeFile(filePath, JSON.stringify(jsonData, null, 2));
 
-		res.status(201).send('Nouvelle possession ajoutée avec succès.');
-	} catch (error) {
-		res.status(500).send('Erreur lors de la création de la possession: ' + error);
+		res.status(201).json({ message: 'Nouvelle possession ajoutée avec succès.' });
+	} catch (err) {
+		res.status(500).json({ error: 'Erreur lors de l\'ajout de la possession' });
 	}
 });
+
 
 // Mise à jour ou modification des informations d'une possession
 app.put('/possession/:libelle/update', async (req, res) => {
 	try {
 		const fileData = fileURLToPath(import.meta.url);
 		const dirname = path.dirname(fileData);
-		const filePath = path.join(dirname, '../data/data.json');
+		const filePath = path.join(dirname, 'data/data.json');
 
 		const { libelle } = req.params;
 		const { newLibelle, dateFin } = req.body;
@@ -104,29 +98,57 @@ app.put('/possession/:libelle/update', async (req, res) => {
 // Mets fin à une possession
 app.put('/possession/:libelle/close', async (req, res) => {
 	try {
+		const filePath = path.join(__dirname, '../data/data.json');
+		const result = await readFile(filePath, 'utf8');
+		const jsonData = JSON.parse(result);
+
+		const { possesseur, possessions } = jsonData.data;
+		const patrimoine = new Patrimoine(possesseur, possessions);
+
+		const possessionToClose = possessions.find(p => p.libelle === req.params.libelle);
+		if (possessionToClose) {
+			possessionToClose.dateFin = new Date();
+		}
+
+		await writeFile(filePath, JSON.stringify(jsonData, null, 2));
+
+		res.status(200).json({ message: 'Possession closed successfully' });
+	} catch (err) {
+		res.status(500).json({ error: 'Erreur lors de la fermeture de la possession' });
+	}
+});
+
+
+// Calcule la valeur du patrimoine à une certaine date
+app.get('/patrimoine/:date', async (req, res) => {
+	try {
 		const fileData = fileURLToPath(import.meta.url);
 		const dirname = path.dirname(fileData);
 		const filePath = path.join(dirname, '../data/data.json');
 
-		const fileContent = await readFile(filePath, 'utf8');
-		const jsonData = JSON.parse(fileContent);
+		const data = await readFile(filePath, 'utf8');
+		const jsonData = JSON.parse(data);
 
-		const { libelle } = req.params;
-		const possession = jsonData[1].data.possessions.find(p => p.libelle === libelle);
+		const { possesseur, possessions } = jsonData.data;
 
-		if (!possession) {
-			return res.status(404).json({ message: "Possession not found" });
+		const patrimoine = new Patrimoine(possesseur, possessions);
+
+		const dateParam = req.params.date;
+		const date = new Date(dateParam);
+
+		if (isNaN(date.getTime())) {
+			return res.status(400).json({ message: 'Invalid date format. Use YYYY-MM-DD.' });
 		}
 
-		possession.dateFin = new Date();
+		const totalValue = patrimoine.getValeur(date);
 
-		await writeFile(filePath, JSON.stringify(jsonData, null, 2), 'utf8');
+		res.json({ totalValue });
 
-		res.status(200).json({ message: "Possession closed successfully" });
 	} catch (err) {
-		res.status(500).json({ message: 'Erreur lors de la fermeture de la possession: ' + err.message });
+		res.status(500).json({ message: 'Erreur lors du calcul de la valeur du patrimoine.' });
 	}
 });
+
 
 
 app.get('/patrimoine', async (req, res) => {
