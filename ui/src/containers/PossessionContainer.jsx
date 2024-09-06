@@ -29,15 +29,30 @@ const PossessionContainer = () => {
 		}
 	};
 
-	if (error) {
-		return <div>Error: {error}</div>;
-	}
+	const handleUpdatePossession = async (updatedPossession) => {
+		try {
+			await axios.put(`/possession/${updatedPossession.libelle}/update`, updatedPossession);
+			fetchPossessions();
+		} catch (err) {
+			setError(err.message);
+		}
+	};
+
+	const handleClosePossession = async (libelle) => {
+		try {
+			await axios.put(`/possession/${libelle}/close`);
+			fetchPossessions();  // Refetch possessions after closing
+		} catch (err) {
+			setError(err.message);
+		}
+	};
+
 
 	return (
 		<div>
 			<h2>Liste des Possessions</h2>
 			<PossessionCreationForm onCreatePossession={handleCreatePossession} />
-			<PossessionTable possessions={possessions} />
+			<PossessionTable possessions={possessions} onClose={handleClosePossession} onUpdate={handleUpdatePossession}/>
 		</div>
 	);
 };

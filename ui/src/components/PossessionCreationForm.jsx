@@ -19,8 +19,8 @@ const PossessionCreationForm = ({ onCreatePossession }) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		onCreatePossession(formState); // Call parent function to create possession
-		setFormState({ libelle: '', valeur: '', dateDebut: '', tauxAmortissement: '' }); // Reset form
+		onCreatePossession(formState);
+		setFormState({ libelle: '', valeur: '', dateDebut: '', tauxAmortissement: '' });
 	};
 
 	return (

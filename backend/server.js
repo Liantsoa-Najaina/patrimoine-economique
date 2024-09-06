@@ -4,7 +4,6 @@ import { fileURLToPath } from 'url';
 import cors from 'cors';
 import { readFile, writeFile } from './data/index.js';
 import fs from "node:fs/promises";
-import err from "mocha/lib/pending.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-
+// Liste les possession :
 app.get('/possession', async (req, res) => {
 	try {
 		const fileData = fileURLToPath(import.meta.url);
@@ -34,7 +33,7 @@ app.get('/possession', async (req, res) => {
 	}
 });
 
-
+// Création d'une nouvelle possession
 app.post('/possession/create', async (req, res) => {
 	try {
 		const fileData = fileURLToPath(import.meta.url);
@@ -72,75 +71,63 @@ app.post('/possession/create', async (req, res) => {
 	}
 });
 
+// Mise à jour ou modification des informations d'une possession
 app.put('/possession/:libelle/update', async (req, res) => {
 	try {
 		const fileData = fileURLToPath(import.meta.url);
 		const dirname = path.dirname(fileData);
 		const filePath = path.join(dirname, '../data/data.json');
 
-		const donnes = req.body;
 		const { libelle } = req.params;
+		const { newLibelle, dateFin } = req.body;
 
-		let newLibelle = "";
+		const fileContent = await readFile(filePath, 'utf8');
+		const jsonData = JSON.parse(fileContent);
 
-		const libellePrev = libelle.split('').slice(1, libelle.length);
-		for (let index = 0; index < libellePrev.length; index++) {
-			const element = libellePrev[index];
-			newLibelle += element;
+		const possession = jsonData[1].data.possessions.find(p => p.libelle === libelle);
+
+		if (!possession) {
+			return res.status(404).json({ message: "Possession non trouvée" });
 		}
 
-		const result = await readFile(filePath);
+		possession.libelle = newLibelle || possession.libelle;
+		possession.dateFin = dateFin ? new Date(dateFin) : possession.dateFin;
 
-		if (result.status === 'OK') {
-			const data = result.data;
-			const possession = data.possessions.find(p => p.libelle === newLibelle);
+		await writeFile(filePath, JSON.stringify(jsonData, null, 2), 'utf8');
 
-			possession.libelle = donnes.libelle;
-			possession.dateFin = new Date(donnes.dateFin);
-
-			await writeFile(filePath, data);
-
-			res.status(200).json({ message: "Update successfully" });
-		} else {
-			res.status(500).json({ message: "Erreur" });
-		}
+		res.status(200).json({ message: "Mise à jour de la possession effectuée" });
 	} catch (err) {
-		return res.status(500).json({ message: 'Erreur lors de l\'analyse du fichier JSON.' });
+		res.status(500).json({ message: 'Erreur lors de la mise à jour des données: ' + err.message });
 	}
 });
 
+// Mets fin à une possession
 app.put('/possession/:libelle/close', async (req, res) => {
 	try {
 		const fileData = fileURLToPath(import.meta.url);
 		const dirname = path.dirname(fileData);
 		const filePath = path.join(dirname, '../data/data.json');
 
+		const fileContent = await readFile(filePath, 'utf8');
+		const jsonData = JSON.parse(fileContent);
+
 		const { libelle } = req.params;
+		const possession = jsonData[1].data.possessions.find(p => p.libelle === libelle);
 
-		let newLibelle = "";
-
-		const libellePrev = libelle.split('').slice(1, libelle.length);
-		for (let index = 0; index < libellePrev.length; index++) {
-			const element = libellePrev[index];
-			newLibelle += element;
+		if (!possession) {
+			return res.status(404).json({ message: "Possession not found" });
 		}
-		const result = await readFile(filePath);
-		if (result.status === 'OK') {
-			const data = result.data;
-			const possession = data.possessions.find(p => p.libelle === newLibelle );
 
-			possession.dateFin = new Date();
+		possession.dateFin = new Date();
 
-			await writeFile(filePath, data);
+		await writeFile(filePath, JSON.stringify(jsonData, null, 2), 'utf8');
 
-			res.status(200).json({ message: "Possession Closing" });
-		} else {
-			res.status(500).json({ message: "Erreur" });
-		}
+		res.status(200).json({ message: "Possession closed successfully" });
 	} catch (err) {
-		res.status(500).send(err);
+		res.status(500).json({ message: 'Erreur lors de la fermeture de la possession: ' + err.message });
 	}
 });
+
 
 app.get('/patrimoine', async (req, res) => {
 	try {
