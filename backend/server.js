@@ -2,10 +2,12 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
-import { readFile, writeFile } from './data/index.js';
 import fs from "node:fs/promises";
 import Patrimoine from "../models/Patrimoine.js";
 import Possession from "../models/possessions/Possession.js";
+import BienMateriel from "../models/possessions/BienMateriel.js";
+import Flux from "../models/possessions/Flux.js";
+import {readFile} from "./data/index.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -152,52 +154,116 @@ app.put('/possession/:libelle/close', async (req, res) => {
 
 
 // Calcule la valeur du patrimoine à une certaine date
-app.get('/patrimoine/:date', async (req, res) => {
+app.post('/patrimoine/range', async (req, res) => {
 	try {
 		const fileData = fileURLToPath(import.meta.url);
 		const dirname = path.dirname(fileData);
 		const filePath = path.join(dirname, 'data/data.json');
 
-		const data = await readFile(filePath, 'utf8');
-		const jsonData = JSON.parse(data);
+		// Read the file content
+		const fileContent = await readFile(filePath, 'utf8');
 
-		const { possesseur, possessions } = jsonData.data;
+		// Debug log the raw file content
+		console.log('Raw file content:', fileContent);
 
-		const patrimoine = new Patrimoine(possesseur, possessions);
+		let jsonData;
 
-		const dateParam = req.params.date;
-		const date = new Date(dateParam);
-
-		if (isNaN(date.getTime())) {
-			return res.status(400).json({ message: 'Format de la date invalide, utiliser YYYY-MM-DD.' });
+		// Check if fileContent is already an object
+		if (typeof fileContent === 'string') {
+			// Try parsing the file content as JSON
+			try {
+				jsonData = JSON.parse(fileContent);
+			} catch (parseErr) {
+				console.error('Error parsing JSON:', parseErr);
+				return res.status(500).json({ message: 'Error parsing JSON: ' + parseErr.message });
+			}
+		} else {
+			// If it's already an object, assign it directly
+			jsonData = fileContent;
 		}
 
-		const totalValue = patrimoine.getValeur(date);
+		// Debug log after parsing
+		console.log('Parsed JSON data:', jsonData);
 
-		res.json({ totalValue });
+		// Find Patrimoine data
+		const patrimoineData = jsonData.data.find(item => item.model === 'Patrimoine');
+		if (!patrimoineData) {
+			return res.status(404).json({ message: 'Patrimoine not found' });
+		}
 
+		const { possesseur, possessions } = patrimoineData.data;
+
+		// Map possessions to their respective classes
+		const possessionInstances = possessions.map(p => {
+			if (p.jour && p.valeurConstante !== undefined) {
+				return new Flux(p.possesseur, p.libelle, p.valeur, new Date(p.dateDebut), p.dateFin ? new Date(p.dateFin) : null, p.tauxAmortissement, p.jour, p.valeurConstante);
+			} else {
+				return new BienMateriel(p.possesseur, p.libelle, p.valeur, new Date(p.dateDebut), p.dateFin ? new Date(p.dateFin) : null, p.tauxAmortissement);
+			}
+		});
+
+		// Instantiate Patrimoine class
+		const patrimoine = new Patrimoine(possesseur, possessionInstances);
+
+		// Extract request body values
+		const { startDate, endDate, jour } = req.body;
+
+		if (!startDate || !endDate || !jour) {
+			return res.status(400).json({ message: 'Invalid input, please provide startDate, endDate, and jour.' });
+		}
+
+		// Calculate total value between the date range
+		const totalValueRange = patrimoine.getValueBetween(startDate, endDate, jour);
+
+		res.status(200).json({ totalValue: totalValueRange });
 	} catch (err) {
-		res.status(500).json({ message: 'Erreur lors du calcul de la valeur du patrimoine.' });
+		console.error('Error calculating patrimoine value:', err);
+		res.status(500).json({ message: 'Error calculating patrimoine value.' });
 	}
 });
 
 
-
-app.get('/patrimoine', async (req, res) => {
+app.post('/patrimoine/range', async (req, res) => {
 	try {
 		const fileData = fileURLToPath(import.meta.url);
 		const dirname = path.dirname(fileData);
-		const filePath = path.join(dirname, '../data/data.json');
+		const filePath = path.join(dirname, 'data/data.json');
 
-		const result = await readFile(filePath);
-		if (result.status === 'OK') {
-			const data = result.data;
-			res.status(200).json({data: data});
-		} else {
-			res.status(500).json({message: 'Erreur sur la lecture de donne'});
+		// Read the file and parse JSON
+		const data = await readFile(filePath, 'utf8');
+		let jsonData;
+		try {
+			jsonData = JSON.parse(data);
+		} catch (err) {
+			console.error('Error parsing JSON:', err);
+			return res.status(500).json({ message: 'Error reading patrimoine data.' });
 		}
+
+		// Extract patrimoine data properly without changing the structure
+		const patrimoineData = jsonData.find(item => item.model === 'Patrimoine');
+		if (!patrimoineData) {
+			return res.status(404).json({ message: 'Patrimoine not found' });
+		}
+
+		const { possesseur, possessions } = patrimoineData.data;
+
+		// Instantiate Patrimoine class
+		const patrimoine = new Patrimoine(possesseur, possessions);
+
+		// Extract request body values
+		const { startDate, endDate, jour } = req.body;
+
+		if (!startDate || !endDate || !jour) {
+			return res.status(400).json({ message: 'Invalid input, please provide startDate, endDate, and jour.' });
+		}
+
+		// Calculate total value between the date range
+		const totalValueRange = patrimoine.getValueBetween(startDate, endDate, jour);
+
+		res.status(200).json({ totalValue: totalValueRange });
 	} catch (err) {
-		res.status(500).json({message: err})
+		console.error('Error calculating patrimoine value:', err);
+		res.status(500).json({ message: 'Error calculating patrimoine value.' });
 	}
 });
 

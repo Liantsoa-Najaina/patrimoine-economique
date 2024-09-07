@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="105795f5-8bfc-456b-abcb-af5dcbf13c71" name="Changes" comment="fix: resolve possession creation not working">
+    <list default="true" id="105795f5-8bfc-456b-abcb-af5dcbf13c71" name="Changes" comment="fix: resolve possession closing not working">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/data/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/data/data.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Patrimoine.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/Patrimoine.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +61,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "patrimoine-fullproject",
     "javascript.nodejs.core.library.configured.version": "20.16.0",
-    "javascript.nodejs.core.library.typings.version": "",
+    "javascript.nodejs.core.library.typings.version": "20.16.5",
     "last_opened_file_path": "/home/liantsoa/WebstormProjects/patrimoine",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.stylelint": "true",
@@ -140,7 +142,9 @@
       <workItem from="1725047428323" duration="7883000" />
       <workItem from="1725070515656" duration="3966000" />
       <workItem from="1725074619301" duration="4512000" />
-      <workItem from="1725640855100" duration="5411000" />
+      <workItem from="1725640855100" duration="9294000" />
+      <workItem from="1725674086351" duration="275000" />
+      <workItem from="1725674390415" duration="2425000" />
     </task>
     <task id="LOCAL-00001" summary="fix: fix the non-working endpoints: get '/patrimoine/date' and post '/patrimoine/range'">
       <option name="closed" value="true" />
@@ -262,7 +266,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725645775176</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="fix: resolve possession closing not working">
+      <option name="closed" value="true" />
+      <created>1725647318853</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1725647318853</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -294,6 +306,7 @@
     <MESSAGE value="fix: resolve the bug of the closing possession endpoint not working" />
     <MESSAGE value="fix: made correct implementation of the asset's total value calculation" />
     <MESSAGE value="fix: resolve possession creation not working" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: resolve possession creation not working" />
+    <MESSAGE value="fix: resolve possession closing not working" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: resolve possession closing not working" />
   </component>
 </project>
