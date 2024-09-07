@@ -1,57 +1,62 @@
-import React from 'react';
-import { Form, Button, Container } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
 
-const CreatePossessionForm = ({ formState, onChange, onSubmit, error }) => {
+const CreatePossessionForm = ({ onSubmit }) => {
+	const [libelle, setLibelle] = useState('');
+	const [valeur, setValeur] = useState('');
+	const [dateDebut, setDateDebut] = useState('');
+	const [taux, setTaux] = useState('');
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		onSubmit({ libelle, valeur, dateDebut, tauxAmortissement: taux });
+	};
+
 	return (
-		<Container>
-			<h2>Create New Possession</h2>
-			{error && <p className="text-danger">{error}</p>}
-			<Form onSubmit={onSubmit}>
-				<Form.Group controlId="formLibelle">
-					<Form.Label>Libellé</Form.Label>
-					<Form.Control
-						type="text"
-						name="libelle"
-						value={formState.libelle}
-						onChange={onChange}
-						placeholder="Enter libellé"
-						required
-					/>
-				</Form.Group>
-				<Form.Group controlId="formValeur">
-					<Form.Label>Valeur</Form.Label>
-					<Form.Control
-						type="number"
-						name="valeur"
-						value={formState.valeur}
-						onChange={onChange}
-						placeholder="Enter valeur"
-						required
-					/>
-				</Form.Group>
-				<Form.Group controlId="formDateDebut">
-					<Form.Label>Date Début</Form.Label>
-					<Form.Control
-						type="date"
-						name="dateDebut"
-						value={formState.dateDebut}
-						onChange={onChange}
-						required
-					/>
-				</Form.Group>
-				<Form.Group controlId="formTauxAmortissement">
-					<Form.Label>Amortissement</Form.Label>
-					<Form.Control
-						type="number"
-						name="tauxAmortissement"
-						value={formState.tauxAmortissement}
-						onChange={onChange}
-						required
-					/>
-				</Form.Group>
-				<Button variant="primary" type="submit">Add Possession</Button>
-			</Form>
-		</Container>
+		<Form onSubmit={handleSubmit}>
+			<Form.Group controlId="formLibelle">
+				<Form.Label>Libellé</Form.Label>
+				<Form.Control
+					type="text"
+					placeholder="Enter libellé"
+					value={libelle}
+					onChange={(e) => setLibelle(e.target.value)}
+					required
+				/>
+			</Form.Group>
+			<Form.Group controlId="formValeur">
+				<Form.Label>Valeur</Form.Label>
+				<Form.Control
+					type="number"
+					placeholder="Enter valeur"
+					value={valeur}
+					onChange={(e) => setValeur(e.target.value)}
+					required
+				/>
+			</Form.Group>
+			<Form.Group controlId="formDateDebut">
+				<Form.Label>Date Début</Form.Label>
+				<Form.Control
+					type="date"
+					value={dateDebut}
+					onChange={(e) => setDateDebut(e.target.value)}
+					required
+				/>
+			</Form.Group>
+			<Form.Group controlId="formTaux">
+				<Form.Label>Taux</Form.Label>
+				<Form.Control
+					type="number"
+					placeholder="Enter taux"
+					value={taux}
+					onChange={(e) => setTaux(e.target.value)}
+					required
+				/>
+			</Form.Group>
+			<Button variant="primary" type="submit">
+				Créer
+			</Button>
+		</Form>
 	);
 };
 

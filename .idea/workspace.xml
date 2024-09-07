@@ -4,24 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="105795f5-8bfc-456b-abcb-af5dcbf13c71" name="Changes" comment="fix: fix calculating value between two dates to return an array of objects">
-      <change afterPath="$PROJECT_DIR$/ui/src/components/ChartComponent.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/src/components/CreatePossessionForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/src/components/NavBarComponent.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/src/components/PatrimoineDatePicker.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/src/components/UpdatePossessionForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/src/containers/CreatePossessionContainer.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/src/containers/PatrimoineContainer.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/src/containers/UpdatePossessionContainer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="105795f5-8bfc-456b-abcb-af5dcbf13c71" name="Changes" comment="feat: implement backend layout into the front-end">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Patrimoine.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/Patrimoine.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/ui/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/ui/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/components/CreatePossessionForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/components/CreatePossessionForm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/src/components/PossessionTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/components/PossessionTable.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/components/UpdatePossessionForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/components/UpdatePossessionForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/containers/CreatePossessionContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/containers/CreatePossessionContainer.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/src/containers/PossessionContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/containers/PossessionContainer.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/containers/UpdatePossessionContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/containers/UpdatePossessionContainer.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -310,7 +301,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725680015216</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="feat: implement backend layout into the front-end">
+      <option name="closed" value="true" />
+      <created>1725683428607</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1725683428607</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -346,6 +345,7 @@
     <MESSAGE value="fix: fix patrimoine value calculation between two dates to return an array of values, needed for the chart" />
     <MESSAGE value="fix: add forgotten imports" />
     <MESSAGE value="fix: fix calculating value between two dates to return an array of objects" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: fix calculating value between two dates to return an array of objects" />
+    <MESSAGE value="feat: implement backend layout into the front-end" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: implement backend layout into the front-end" />
   </component>
 </project>

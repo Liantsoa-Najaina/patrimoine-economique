@@ -19,6 +19,7 @@ const PossessionTable = ({ possessions, onClose, onUpdate }) => {
 				<th>Date Début</th>
 				<th>Date Fin</th>
 				<th>Amortissement</th>
+				<th>Valeur Actuelle</th>
 				<th>Actions</th>
 			</tr>
 			</thead>
@@ -30,6 +31,7 @@ const PossessionTable = ({ possessions, onClose, onUpdate }) => {
 					<td>{new Date(possession.dateDebut).toLocaleDateString()}</td>
 					<td>{possession.dateFin ? new Date(possession.dateFin).toLocaleDateString() : 'Active'}</td>
 					<td>{possession.tauxAmortissement}%</td>
+					<td>{possession.getValeur(new Date())}</td>
 					<td>
 						<Button variant="info" onClick={() => handleEdit(possession)}>
 							Edit

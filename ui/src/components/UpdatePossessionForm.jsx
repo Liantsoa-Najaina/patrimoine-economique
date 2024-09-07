@@ -1,37 +1,61 @@
-import React from 'react';
-import { Form, Button, Container } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
 
-const UpdatePossessionForm = ({ possession, onChange, onSubmit, error }) => {
+const UpdatePossessionForm = ({ possession, onUpdate }) => {
+	const [libelle, setLibelle] = useState(possession.libelle);
+	const [valeur, setValeur] = useState(possession.valeur);
+	const [dateFin, setDateFin] = useState(possession.dateFin || '');
+	const [taux, setTaux] = useState(possession.tauxAmortissement);
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		onUpdate({libelle, valeur, dateFin, tauxAmortissement: taux});
+	};
 	return (
-		<Container>
-			<h2>Update Possession</h2>
-			{error && <p className="text-danger">{error}</p>}
-			<Form onSubmit={onSubmit}>
-				<Form.Group controlId="formLibelle">
-					<Form.Label>Libellé</Form.Label>
-					<Form.Control
-						type="text"
-						name="newLibelle"
-						value={possession.newLibelle}
-						onChange={onChange}
-						placeholder="Enter new libellé"
-						required
-					/>
-				</Form.Group>
-				<Form.Group controlId="formDateFin">
-					<Form.Label>Date Fin</Form.Label>
-					<Form.Control
-						type="date"
-						name="dateFin"
-						value={possession.dateFin}
-						onChange={onChange}
-						placeholder="Select date fin"
-					/>
-				</Form.Group>
-				<Button variant="primary" type="submit">Update</Button>
-			</Form>
-		</Container>
+		<Form onSubmit={handleSubmit}>
+			<Form.Group controlId="formLibelle">
+				<Form.Label>Libellé</Form.Label>
+				<Form.Control
+					type="text"
+					placeholder="Enter libellé"
+					value={libelle}
+					onChange={(e) => setLibelle(e.target.value)}
+					required
+				/>
+			</Form.Group>
+			<Form.Group controlId="formValeur">
+				<Form.Label>Valeur</Form.Label>
+				<Form.Control
+					type="number"
+					placeholder="Enter valeur"
+					value={valeur}
+					onChange={(e) => setValeur(e.target.value)}
+					required
+				/>
+			</Form.Group>
+			<Form.Group controlId="formDateFin">
+				<Form.Label>Date Fin</Form.Label>
+				<Form.Control
+					type="date"
+					value={dateFin}
+					onChange={(e) => setDateFin(e.target.value)}
+				/>
+			</Form.Group>
+			<Form.Group controlId="formTaux">
+				<Form.Label>Taux</Form.Label>
+				<Form.Control
+					type="number"
+					placeholder="Enter taux"
+					value={taux}
+					onChange={(e) => setTaux(e.target.value)}
+					required
+				/>
+			</Form.Group>
+			<Button variant="primary" type="submit">
+				Enregistrer
+			</Button>
+		</Form>
 	);
-};
+}
 
 export default UpdatePossessionForm;

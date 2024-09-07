@@ -47,7 +47,6 @@ const PossessionContainer = () => {
 		}
 	};
 
-
 	return (
 		<div>
 			<h2>Liste des Possessions</h2>
