@@ -158,26 +158,46 @@ app.get('/patrimoine/:date', async (req, res) => {
 		const dirname = path.dirname(fileData);
 		const filePath = path.join(dirname, 'data/data.json');
 
-		const data = await readFile(filePath, 'utf8');
-		const jsonData = JSON.parse(data);
+		const fileContent = await fs.readFile(filePath, 'utf8');
+		const jsonData = JSON.parse(fileContent);
 
-		const { possesseur, possessions } = jsonData.data;
+		// Extract possessions data
+		const patrimoineData = jsonData.find(item => item.model === 'Patrimoine');
+		if (!patrimoineData) {
+			return res.status(404).json({ message: 'Patrimoine not found' });
+		}
 
-		const patrimoine = new Patrimoine(possesseur, possessions);
+		const { possesseur, possessions } = patrimoineData.data;
+
+		// Instantiate possessions
+		const possessionInstances = possessions.map(p => {
+			switch (p.model) {
+				case 'Flux':
+					return new Flux(p.possesseur, p.libelle, p.valeur, new Date(p.dateDebut), p.dateFin ? new Date(p.dateFin) : null, p.tauxAmortissement, p.jour, p.valeurConstante);
+				case 'BienMateriel':
+					return new BienMateriel(p.possesseur, p.libelle, p.valeur, new Date(p.dateDebut), p.dateFin ? new Date(p.dateFin) : null, p.tauxAmortissement);
+				default:
+					return new Possession(p.possesseur, p.libelle, p.valeur, new Date(p.dateDebut), p.dateFin ? new Date(p.dateFin) : null, p.tauxAmortissement);
+			}
+		});
+
+		const patrimoine = new Patrimoine(possesseur, possessionInstances);
 
 		const dateParam = req.params.date;
 		const date = new Date(dateParam);
 
 		if (isNaN(date.getTime())) {
-			return res.status(400).json({ message: 'Format de la date invalide, utiliser YYYY-MM-DD.' });
+			return res.status(400).json({ message: 'Invalid date format, use YYYY-MM-DD.' });
 		}
 
-		const totalValue = patrimoine.getValeur(date);
+		let totalValue = patrimoine.getValeur(date);
+
+		totalValue = parseFloat(totalValue.toFixed(2));
 
 		res.json({ totalValue });
 
 	} catch (err) {
-		res.status(500).json({ message: 'Erreur lors du calcul de la valeur du patrimoine.' });
+		res.status(500).json({ message: 'Error calculating patrimoine value: ' + err.message });
 	}
 });
 
