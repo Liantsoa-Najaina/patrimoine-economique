@@ -211,9 +211,10 @@ app.post('/patrimoine/range', async (req, res) => {
 		const dirname = path.dirname(fileData);
 		const filePath = path.join(dirname, 'data/data.json');
 
-		const fileContent = await readFile(filePath, 'utf8');
-
+		const fileContent = await fs.readFile(filePath, 'utf8');
 		let jsonData;
+
+		// Check if fileContent is a string and parse it
 		if (typeof fileContent === 'string') {
 			try {
 				jsonData = JSON.parse(fileContent);
@@ -225,13 +226,15 @@ app.post('/patrimoine/range', async (req, res) => {
 			jsonData = fileContent;
 		}
 
-		const patrimoineData = jsonData.data.find(item => item.model === 'Patrimoine');
+		// Extract patrimoine data
+		const patrimoineData = jsonData.find(item => item.model === 'Patrimoine');
 		if (!patrimoineData) {
 			return res.status(404).json({ message: 'Patrimoine not found' });
 		}
 
 		const { possesseur, possessions } = patrimoineData.data;
 
+		// Instantiate possessions
 		const possessionInstances = possessions.map(p => {
 			if (p.jour && p.valeurConstante !== undefined) {
 				return new Flux(p.possesseur, p.libelle, p.valeur, new Date(p.dateDebut), p.dateFin ? new Date(p.dateFin) : null, p.tauxAmortissement, p.jour, p.valeurConstante);
@@ -248,14 +251,36 @@ app.post('/patrimoine/range', async (req, res) => {
 			return res.status(400).json({ message: 'Invalid input, please provide startDate, endDate, and jour.' });
 		}
 
-		const values = patrimoine.getValueBetween(startDate, endDate, jour);
+		const start = new Date(startDate);
+		const end = new Date(endDate);
 
-		res.status(200).json({ values });
+		if (isNaN(start.getTime()) || isNaN(end.getTime()) || jour < 1 || jour > 31) {
+			return res.status(400).json({ message: 'Invalid date format or day, use YYYY-MM-DD for dates and day between 1 and 31.' });
+		}
+
+		const results = [];
+		let currentDate = new Date(start);
+
+		while (currentDate <= end) {
+			const checkDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), jour);
+
+			if (checkDate >= start && checkDate <= end) {
+				let totalValue = patrimoine.getValeur(checkDate);
+				totalValue = parseFloat(totalValue.toFixed(2));
+				results.push({ date: checkDate.toISOString().split('T')[0], totalValue });
+			}
+
+			// Move to the next month
+			currentDate.setMonth(currentDate.getMonth() + 1);
+		}
+
+		res.status(200).json({ values: results });
 	} catch (err) {
 		console.error('Error calculating patrimoine value:', err);
 		res.status(500).json({ message: 'Error calculating patrimoine value.' });
 	}
 });
+
 
 app.listen(PORT, () => {
 	console.log(`Server is running on http://localhost:${PORT}`);

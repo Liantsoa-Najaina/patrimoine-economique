@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="105795f5-8bfc-456b-abcb-af5dcbf13c71" name="Changes" comment="fix: resolve possession closing not working">
+    <list default="true" id="105795f5-8bfc-456b-abcb-af5dcbf13c71" name="Changes" comment="fix: add forgotten imports">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/Patrimoine.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/Patrimoine.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -270,7 +272,23 @@
       <option name="project" value="LOCAL" />
       <updated>1725647318853</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="fix: fix patrimoine value calculation between two dates to return an array of values, needed for the chart">
+      <option name="closed" value="true" />
+      <created>1725678576265</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1725678576265</updated>
+    </task>
+    <task id="LOCAL-00018" summary="fix: add forgotten imports">
+      <option name="closed" value="true" />
+      <created>1725678699091</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1725678699091</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -303,6 +321,8 @@
     <MESSAGE value="fix: made correct implementation of the asset's total value calculation" />
     <MESSAGE value="fix: resolve possession creation not working" />
     <MESSAGE value="fix: resolve possession closing not working" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: resolve possession closing not working" />
+    <MESSAGE value="fix: fix patrimoine value calculation between two dates to return an array of values, needed for the chart" />
+    <MESSAGE value="fix: add forgotten imports" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: add forgotten imports" />
   </component>
 </project>

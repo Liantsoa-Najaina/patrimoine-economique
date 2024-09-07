@@ -29,7 +29,7 @@ export default class Patrimoine {
 		);
 	}
 
-	getValueBetween(startDate, endDate, day) {
+	/*getValueBetween(startDate, endDate, day) {
 		const results = [];
 		let currentDate = new Date(startDate);
 		endDate = new Date(endDate);
@@ -38,11 +38,34 @@ export default class Patrimoine {
 			throw new Error('Invalid day. It should be between 1 and 31.');
 		}
 
-		while (currentDate <= endDate) {
-			const checkDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+		// Ensure startDate is before endDate
+		if (currentDate > endDate) {
+			throw new Error('Start date must be before end date.');
+		}
 
+		while (currentDate <= endDate) {
+			// Create checkDate at the specified day of the current month
+			let checkDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+
+			// Handle months with fewer days than the specified day
+			if (checkDate.getDate() !== day) {
+				// Move to the next month if the date is invalid
+				currentDate.setMonth(currentDate.getMonth() + 1);
+				continue;
+			}
+
+			// Log current state
+			console.log(`Checking date: ${checkDate.toISOString().split('T')[0]}`);
+
+			// Check if checkDate is within the range
 			if (checkDate >= startDate && checkDate <= endDate) {
+				console.log(`Date ${checkDate.toISOString().split('T')[0]} is within range.`);
 				const totalValue = this.possessions.reduce((total, possession) => {
+					// Log possession details
+					console.log(`Evaluating possession: ${possession.libelle}`);
+					console.log(`  Date debut: ${possession.dateDebut.toISOString().split('T')[0]}`);
+					console.log(`  Date fin: ${possession.dateFin ? possession.dateFin.toISOString().split('T')[0] : 'null'}`);
+
 					if ((possession.dateDebut <= checkDate) && (!possession.dateFin || possession.dateFin >= checkDate)) {
 						let value = possession.valeur;
 
@@ -56,12 +79,25 @@ export default class Patrimoine {
 					return total;
 				}, 0);
 
+				// Log calculated total value
+				console.log(`Total value on ${checkDate.toISOString().split('T')[0]}: ${totalValue}`);
+
 				results.push({ date: checkDate.toISOString().split('T')[0], totalValue: parseFloat(totalValue.toFixed(2)) });
 			}
 
+			// Move to the next month
 			currentDate.setMonth(currentDate.getMonth() + 1);
 		}
 
+		// Log results
+		console.log('Calculated values:', results);
+
+		if (results.length === 0) {
+			console.log('No values found for the specified date range and day.');
+		}
+
 		return results;
-	}
+	}*/
+
+
 }
