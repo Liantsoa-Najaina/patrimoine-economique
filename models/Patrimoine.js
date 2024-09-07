@@ -29,24 +29,39 @@ export default class Patrimoine {
 		);
 	}
 
-	getValueBetween(startDate, endDate, dayOfMonth) {
-		const start = new Date(startDate);
-		const end = new Date(endDate);
-		let currentDate = new Date(start.getFullYear(), start.getMonth(), dayOfMonth);
-		let totalValue = 0;
+	getValueBetween(startDate, endDate, day) {
+		const results = [];
+		let currentDate = new Date(startDate);
+		endDate = new Date(endDate);
 
-		while (currentDate <= end) {
-			if (currentDate.getDate() === dayOfMonth) {
-				totalValue += this.getValeur(currentDate);
-			}
-
-			// Move to the next month
-			currentDate.setMonth(currentDate.getMonth() + 1);
-			if (currentDate.getDate() !== dayOfMonth) {
-				currentDate.setDate(dayOfMonth);
-			}
+		if (day < 1 || day > 31) {
+			throw new Error('Invalid day. It should be between 1 and 31.');
 		}
 
-		return Math.round(totalValue * 100) / 100;
+		while (currentDate <= endDate) {
+			const checkDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+
+			if (checkDate >= startDate && checkDate <= endDate) {
+				const totalValue = this.possessions.reduce((total, possession) => {
+					if ((possession.dateDebut <= checkDate) && (!possession.dateFin || possession.dateFin >= checkDate)) {
+						let value = possession.valeur;
+
+						if (possession.tauxAmortissement) {
+							const months = (checkDate.getFullYear() - possession.dateDebut.getFullYear()) * 12 + (checkDate.getMonth() - possession.dateDebut.getMonth());
+							value -= value * (possession.tauxAmortissement / 100) * months;
+						}
+
+						total += value;
+					}
+					return total;
+				}, 0);
+
+				results.push({ date: checkDate.toISOString().split('T')[0], totalValue: parseFloat(totalValue.toFixed(2)) });
+			}
+
+			currentDate.setMonth(currentDate.getMonth() + 1);
+		}
+
+		return results;
 	}
 }

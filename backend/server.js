@@ -202,22 +202,56 @@ app.get('/patrimoine/:date', async (req, res) => {
 });
 
 
-
-app.get('/patrimoine', async (req, res) => {
+// Calcule les valeurs du patrimoine entre deux dates
+app.post('/patrimoine/range', async (req, res) => {
 	try {
 		const fileData = fileURLToPath(import.meta.url);
 		const dirname = path.dirname(fileData);
-		const filePath = path.join(dirname, '../data/data.json');
+		const filePath = path.join(dirname, 'data/data.json');
 
-		const result = await readFile(filePath);
-		if (result.status === 'OK') {
-			const data = result.data;
-			res.status(200).json({data: data});
+		const fileContent = await readFile(filePath, 'utf8');
+
+		let jsonData;
+		if (typeof fileContent === 'string') {
+			try {
+				jsonData = JSON.parse(fileContent);
+			} catch (parseErr) {
+				console.error('Error parsing JSON:', parseErr);
+				return res.status(500).json({ message: 'Error parsing JSON: ' + parseErr.message });
+			}
 		} else {
-			res.status(500).json({message: 'Erreur sur la lecture de donne'});
+			jsonData = fileContent;
 		}
+
+		const patrimoineData = jsonData.data.find(item => item.model === 'Patrimoine');
+		if (!patrimoineData) {
+			return res.status(404).json({ message: 'Patrimoine not found' });
+		}
+
+		const { possesseur, possessions } = patrimoineData.data;
+
+		const possessionInstances = possessions.map(p => {
+			if (p.jour && p.valeurConstante !== undefined) {
+				return new Flux(p.possesseur, p.libelle, p.valeur, new Date(p.dateDebut), p.dateFin ? new Date(p.dateFin) : null, p.tauxAmortissement, p.jour, p.valeurConstante);
+			} else {
+				return new BienMateriel(p.possesseur, p.libelle, p.valeur, new Date(p.dateDebut), p.dateFin ? new Date(p.dateFin) : null, p.tauxAmortissement);
+			}
+		});
+
+		const patrimoine = new Patrimoine(possesseur, possessionInstances);
+
+		const { startDate, endDate, jour } = req.body;
+
+		if (!startDate || !endDate || !jour) {
+			return res.status(400).json({ message: 'Invalid input, please provide startDate, endDate, and jour.' });
+		}
+
+		const values = patrimoine.getValueBetween(startDate, endDate, jour);
+
+		res.status(200).json({ values });
 	} catch (err) {
-		res.status(500).json({message: err})
+		console.error('Error calculating patrimoine value:', err);
+		res.status(500).json({ message: 'Error calculating patrimoine value.' });
 	}
 });
 
