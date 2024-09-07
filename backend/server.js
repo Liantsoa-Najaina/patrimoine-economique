@@ -6,6 +6,8 @@ import { readFile, writeFile } from './data/index.js';
 import fs from "node:fs/promises";
 import Patrimoine from "../models/Patrimoine.js";
 import Possession from "../models/possessions/Possession.js";
+import BienMateriel from "../models/possessions/BienMateriel.js";
+import Flux from "../models/possessions/Flux.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
