@@ -89,29 +89,23 @@ app.put('/possession/:libelle/update', async (req, res) => {
 		const fileContent = await fs.readFile(filePath, 'utf8');
 		const data = JSON.parse(fileContent);
 
-		// Find the index of the "Patrimoine" model in the JSON data
 		const patrimoineIndex = data.findIndex(item => item.model === 'Patrimoine');
 		if (patrimoineIndex === -1) {
 			return res.status(404).json({ message: "Patrimoine not found." });
 		}
 
-		// Access the possessions array
 		const possessions = data[patrimoineIndex].data.possessions;
 
-		// Find the possession to update
 		const possession = possessions.find(p => p.libelle === libelle);
 		if (!possession) {
 			return res.status(404).json({ message: "Possession non trouvée" });
 		}
 
-		// Update the possession's fields
 		possession.libelle = newLibelle || possession.libelle;
 		possession.dateFin = dateFin ? new Date(dateFin) : possession.dateFin;
 
-		// Write the updated data back to the file
 		await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf8');
 
-		// Send success response
 		res.status(200).json({ message: "Mise à jour de la possession effectuée" });
 	} catch (err) {
 		res.status(500).json({ message: 'Erreur lors de la mise à jour des données: ' + err.message });

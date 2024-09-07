@@ -23,7 +23,7 @@ const PossessionContainer = () => {
 	const handleCreatePossession = async (newPossession) => {
 		try {
 			await axios.post('/possession/create', newPossession);
-			fetchPossessions();
+			await fetchPossessions();
 		} catch (err) {
 			setError(err.message);
 		}
@@ -32,7 +32,7 @@ const PossessionContainer = () => {
 	const handleUpdatePossession = async (updatedPossession) => {
 		try {
 			await axios.put(`/possession/${updatedPossession.libelle}/update`, updatedPossession);
-			fetchPossessions();
+			await fetchPossessions();
 		} catch (err) {
 			setError(err.message);
 		}
@@ -41,7 +41,7 @@ const PossessionContainer = () => {
 	const handleClosePossession = async (libelle) => {
 		try {
 			await axios.put(`/possession/${libelle}/close`);
-			fetchPossessions();  // Refetch possessions after closing
+			await fetchPossessions();
 		} catch (err) {
 			setError(err.message);
 		}
