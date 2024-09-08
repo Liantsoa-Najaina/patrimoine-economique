@@ -1,9 +1,9 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Container } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useParams, useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 const UpdatePossession = () => {
 	const { libelle } = useParams();
@@ -13,6 +13,20 @@ const UpdatePossession = () => {
 		libelle: libelle,
 		dateFin: null,
 	});
+
+	useEffect(() => {
+		// Fetch the current possession data to populate the form
+		axios.get(`http://localhost:3000/possession/${libelle}`)
+			.then(response => {
+				setPossession({
+					...response.data,
+					dateFin: new Date(response.data.dateFin)
+				});
+			})
+			.catch(error => {
+				console.error("Erreur lors de la récupération de la possession:", error);
+			});
+	}, [libelle]);
 
 	const handleChange = (e) => {
 		setPossession({ ...possession, [e.target.name]: e.target.value });
@@ -27,31 +41,16 @@ const UpdatePossession = () => {
 
 		const updatedPossession = {
 			...possession,
-			dateFin: possession.dateFin ? possession.dateFin.toISOString() : null,
+			dateFin: possession.dateFin ? possession.dateFin.toISOString().split('T')[0] : null
 		};
 
-		fetch(
-			`http://localhost:3000/possession/${libelle}/update`,
-			{
-				method: "PUT",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(updatedPossession),
-			}
-		)
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error("Erreur lors de la mise à jour de la possession.");
-				}
-				return response.json();
-			})
-			.then((data) => {
-				console.log("Mise à jour réussie:", data);
+		axios.put(`http://localhost:3000/possession/${libelle}/update`, updatedPossession)
+			.then(response => {
+				console.log("Mise à jour réussie:", response.data);
 				navigate("/possession");
 			})
-			.catch((error) => {
-				console.error("Erreur:", error);
+			.catch(error => {
+				console.error("Erreur lors de la mise à jour de la possession:", error);
 			});
 	};
 

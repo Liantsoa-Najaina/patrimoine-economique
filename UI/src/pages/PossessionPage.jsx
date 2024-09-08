@@ -1,12 +1,26 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Container, Button, Table } from "react-bootstrap";
+import { Container, Button, Table, Alert, Modal, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Possession from "../../../models/possessions/Possession";
 import Flux from "../../../models/possessions/Flux";
 
 const PossessionPage = () => {
 	const [possessions, setPossessions] = useState([]);
+	const [error, setError] = useState("");
+	const [showUpdateModal, setShowUpdateModal] = useState(false);
+	const [showCreateModal, setShowCreateModal] = useState(false);
+	const [selectedPossession, setSelectedPossession] = useState({
+		libelle: "",
+		dateFin: null,
+	});
+
+	const [newLibelle, setNewLibelle] = useState("");
+	const [dateFin, setDateFin] = useState(null);
+	const [newValeur, setNewValeur] = useState("");
+	const [newDateDebut, setNewDateDebut] = useState("");
+	const [newTaux, setNewTaux] = useState("");
+
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -42,30 +56,82 @@ const PossessionPage = () => {
 					);
 				}
 
+				let valeurActuelle;
+				if (possessionData.dateFin && new Date(possessionData.dateFin) < currentDate) {
+					valeurActuelle = 0;
+				} else {
+					valeurActuelle = possession.getValeur(currentDate).toFixed(2) || "-";
+				}
+
 				return {
 					...possessionData,
-					valeurActuelle: possession.getValeur(currentDate) || "-",
+					valeurActuelle,
 				};
 			});
 			setPossessions(updatedPossessions);
 		} catch (error) {
-			console.error("Erreur lors de la récupération des possessions:", error);
+			setError("Erreur lors de la récupération des possessions: " + error.message);
 		}
 	};
 
-	const handleCreate = () => {
-		navigate("/create");
+	const handleShowUpdateModal = (possession) => {
+		setSelectedPossession(possession);
+		setNewLibelle(possession.libelle);
+		setDateFin(possession.dateFin ? new Date(possession.dateFin) : null);
+		setShowUpdateModal(true);
 	};
 
-	const handleEdit = (libelle) => {
-		navigate(`/edit/${libelle}`);
+	const handleCloseUpdateModal = () => {
+		setShowUpdateModal(false);
+	};
+
+	const handleShowCreateModal = () => {
+		setShowCreateModal(true);
+	};
+
+	const handleCloseCreateModal = () => {
+		setShowCreateModal(false);
+	};
+
+	const handleCreate = async (e) => {
+		e.preventDefault();
+		try {
+			const newPossession = {
+				libelle: newLibelle,
+				valeur: newValeur,
+				dateDebut: newDateDebut,
+				tauxAmortissement: newTaux,
+			};
+
+			await axios.post("http://localhost:3000/possession/create", newPossession);
+			setShowCreateModal(false);
+			window.location.reload();
+		} catch (error) {
+			setError("Erreur lors de la création de la possession: " + error.message);
+		}
+	};
+
+	const handleUpdate = async (e) => {
+		e.preventDefault();
+		try {
+			const updatedPossession = {
+				newLibelle,
+				dateFin: dateFin ? dateFin.toISOString() : null,
+			};
+
+			await axios.put(`http://localhost:3000/possession/${selectedPossession.libelle}/update`, updatedPossession);
+			setShowUpdateModal(false);
+			window.location.reload();
+		} catch (error) {
+			setError("Erreur lors de la mise à jour de la possession: " + error.message);
+		}
 	};
 
 	const handleClose = async (libelle) => {
 		try {
-			const response = await axios.post(`http://localhost:3000/possession/${libelle}/close`);
+			const response = await axios.put(`http://localhost:3000/possession/${libelle}/close`);
 			if (response.status === 200) {
-				fetchPossessions();
+				fetchPossessions(); // Fetch the updated possessions list
 			} else {
 				console.error("Erreur lors de la fermeture de la possession.");
 			}
@@ -76,14 +142,17 @@ const PossessionPage = () => {
 
 	return (
 		<Container>
-			<h3 className="fw-normal text-secondary mt-5">Liste des Possessions</h3>
+			<h3 className="fw-normal text-secondary mt-5 text-center">Liste des Possessions</h3>
 			<Button
-				className="mt-4 fs-5 px-4 bg-light text-info border border-2 border-info"
-				onClick={handleCreate}
+				className="mt-3 btn-lg px-2 bg-light text-info border border-2 border-info"
+				onClick={handleShowCreateModal}
 			>
-				Create
+				Nouvelle Possession
 			</Button>
-			<Table className="table table-hover my-5 text-left">
+
+			{error && <Alert variant="danger">{error}</Alert>}
+
+			<Table className="table table-hover my-5 mx-0 text-left table-striped" responsive={true}>
 				<thead className="fs-5 border-bottom border-secondary">
 				<tr>
 					<th>Label</th>
@@ -110,30 +179,108 @@ const PossessionPage = () => {
 								? new Date(possession.dateFin).toLocaleDateString()
 								: "-"}
 						</td>
+						<td className="text-center pt-4">{possession.tauxAmortissement || "-"}</td>
+						<td className="text-center pt-4">{possession.valeurActuelle || "-"}</td>
 						<td className="text-center pt-4">
-							{possession.tauxAmortissement || "-"}
-						</td>
-						<td className="text-center pt-4">
-							{possession.valeurActuelle.toFixed(2) || "-"}
-						</td>
-						<td className="text-center">
 							<Button
-								className="bg-light border-1 border-secondary text-secondary px-4 py-2 me-1 my-2"
-								onClick={() => handleEdit(possession.libelle)}
+								className="me-2"
+								onClick={() => handleShowUpdateModal(possession)}
 							>
-								Edit
+								Modifier
 							</Button>
 							<Button
-								className="bg-light border-1 border-danger text-danger px-3 py-2 ms-1 my-2"
+								variant="danger"
 								onClick={() => handleClose(possession.libelle)}
 							>
-								Close
+								Clôturer
 							</Button>
 						</td>
 					</tr>
 				))}
 				</tbody>
 			</Table>
+
+			{/* Misa a jour d'une possession */}
+			<Modal show={showUpdateModal} onHide={handleCloseUpdateModal}>
+				<Modal.Header closeButton>
+					<Modal.Title>Update Possession</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<Form onSubmit={handleUpdate}>
+						<Form.Group className="mb-3">
+							<Form.Label>Label</Form.Label>
+							<Form.Control
+								type="text"
+								placeholder="Label"
+								value={newLibelle}
+								onChange={(e) => setNewLibelle(e.target.value)}
+							/>
+						</Form.Group>
+						<Form.Group className="mb-3">
+							<Form.Label>Date Fin</Form.Label>
+							<Form.Control
+								type="date"
+								value={
+									dateFin ? new Date(dateFin).toISOString().substring(0, 10) : ""
+								}
+								onChange={(e) => setDateFin(new Date(e.target.value))}
+							/>
+						</Form.Group>
+						<Button variant="primary" type="submit">
+							Save Changes
+						</Button>
+					</Form>
+				</Modal.Body>
+			</Modal>
+
+			{/* Creation d'une nouvelle possession */}
+			<Modal show={showCreateModal} onHide={handleCloseCreateModal}>
+				<Modal.Header closeButton>
+					<Modal.Title>Create New Possession</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<Form onSubmit={handleCreate}>
+						<Form.Group className="mb-3">
+							<Form.Label>Label</Form.Label>
+							<Form.Control
+								type="text"
+								placeholder="Label"
+								value={newLibelle}
+								onChange={(e) => setNewLibelle(e.target.value)}
+							/>
+						</Form.Group>
+						<Form.Group className="mb-3">
+							<Form.Label>Valeur</Form.Label>
+							<Form.Control
+								type="number"
+								placeholder="Valeur"
+								value={newValeur}
+								onChange={(e) => setNewValeur(e.target.value)}
+							/>
+						</Form.Group>
+						<Form.Group className="mb-3">
+							<Form.Label>Date Début</Form.Label>
+							<Form.Control
+								type="date"
+								value={newDateDebut}
+								onChange={(e) => setNewDateDebut(e.target.value)}
+							/>
+						</Form.Group>
+						<Form.Group className="mb-3">
+							<Form.Label>Taux Amortissement</Form.Label>
+							<Form.Control
+								type="number"
+								placeholder="Taux"
+								value={newTaux}
+								onChange={(e) => setNewTaux(e.target.value)}
+							/>
+						</Form.Group>
+						<Button variant="primary" type="submit">
+							Save
+						</Button>
+					</Form>
+				</Modal.Body>
+			</Modal>
 		</Container>
 	);
 };

@@ -4,64 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="105795f5-8bfc-456b-abcb-af5dcbf13c71" name="Changes" comment="feat: add app.jsx">
-      <change afterPath="$PROJECT_DIR$/UI/.eslintrc.cjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UI/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UI/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UI/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UI/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UI/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UI/public/vite.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UI/src/App.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UI/src/assets/react.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UI/src/components/DatePicker.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UI/src/components/LineChart.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UI/src/index.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UI/src/main.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UI/src/pages/CreateNewPossession.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UI/src/pages/PatrimoinePage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UI/src/pages/PossessionPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UI/src/pages/UpdatePossession.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UI/vite.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="105795f5-8bfc-456b-abcb-af5dcbf13c71" name="Changes" comment="fix : fix list of possessions not displaying">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/data/data.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/data/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/instance.js" beforeDir="false" afterPath="$PROJECT_DIR$/instance.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/possessions/BienMateriel.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/possessions/BienMateriel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/possessions/Flux.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/possessions/Flux.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/possessions/Possession.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/possessions/Possession.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/patrimone.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/patrimone.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/public/vite.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/App.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/App.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/assets/coins-3344603_1280.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/assets/list-2160914_1280.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/assets/react.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/components/ChartComponent.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/components/CreatePossessionForm.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/components/NavBarComponent.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/components/PatrimoineDatePicker.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/components/PossessionCreationForm.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/components/PossessionTable.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/components/UpdatePossessionForm.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/containers/CreatePossessionContainer.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/containers/PatrimoineContainer.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/containers/PossessionContainer.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/containers/UpdatePossessionContainer.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/index.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/main.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/pages/PossesionPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/vite.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/pages/CreateNewPossession.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/pages/CreateNewPossession.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/pages/PossessionPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/pages/PossessionPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/pages/UpdatePossession.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/pages/UpdatePossession.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/data/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/data/data.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -204,7 +153,7 @@
       <workItem from="1725695466281" duration="1921000" />
       <workItem from="1725727702554" duration="43000" />
       <workItem from="1725729969221" duration="1688000" />
-      <workItem from="1725777268117" duration="14520000" />
+      <workItem from="1725777268117" duration="20130000" />
     </task>
     <task id="LOCAL-00001" summary="fix: fix the non-working endpoints: get '/patrimoine/date' and post '/patrimoine/range'">
       <option name="closed" value="true" />
@@ -374,7 +323,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725688610379</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="fix : fix list of possessions not displaying">
+      <option name="closed" value="true" />
+      <created>1725795653267</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1725795653267</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -412,6 +369,7 @@
     <MESSAGE value="fix: fix calculating value between two dates to return an array of objects" />
     <MESSAGE value="feat: implement backend layout into the front-end" />
     <MESSAGE value="feat: add app.jsx" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add app.jsx" />
+    <MESSAGE value="fix : fix list of possessions not displaying" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix : fix list of possessions not displaying" />
   </component>
 </project>

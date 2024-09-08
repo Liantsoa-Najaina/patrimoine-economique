@@ -1,19 +1,25 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useState } from "react";
-import { Container, Button, Form } from "react-bootstrap";
+import { Container, Button, Form, Alert } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const CreateNewPossession = () => {
 	const [libelle, setLibelle] = useState("");
 	const [valeur, setValeur] = useState("0");
 	const [dateDebut, setDateDebut] = useState(new Date());
 	const [tauxAmortissement, setTauxAmortissement] = useState("");
+	const [error, setError] = useState("");
 	const navigate = useNavigate();
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
+
+		if (!libelle || isNaN(parseInt(valeur)) || isNaN(parseInt(tauxAmortissement))) {
+			setError("Please fill out all fields correctly.");
+			return;
+		}
 
 		const formattedValeur = parseInt(valeur, 10);
 		const formattedTauxAmortissement = tauxAmortissement
@@ -22,7 +28,7 @@ const CreateNewPossession = () => {
 
 		const newPossession = {
 			possesseur: {
-				nom: "John Doe",
+				nom: "John Doe", // Adjust as needed
 			},
 			libelle,
 			valeur: formattedValeur,
@@ -30,30 +36,27 @@ const CreateNewPossession = () => {
 			tauxAmortissement: formattedTauxAmortissement,
 		};
 
-		fetch("http://localhost:3000/possession/create", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(newPossession),
-		})
-			.then((response) => {
-				if (response.ok) {
-					navigate("/possession");
-				} else {
-					console.error("Erreur lors de la création de la possession");
-				}
-			})
-			.catch((error) =>
-				console.error("Erreur lors de la création de la possession:", error)
-			);
+		try {
+			const response = await axios.post("http://localhost:3000/possession/create", newPossession, {
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			if (response.status === 201) {
+				navigate("/possession", { state: { newPossession } });
+			} else {
+				setError(`Erreur lors de la création de la possession: ${response.data}`);
+			}
+		} catch (error) {
+			setError(`Erreur lors de la création de la possession: ${error.response?.data || error.message}`);
+		}
 	};
 
 	return (
 		<Container className="">
-			<h1 className="fw-normal text-secondary mt-5 mb-5">
-				Create New Possession
-			</h1>
+			<h1 className="fw-normal text-secondary mt-5 mb-5">Create New Possession</h1>
+			{error && <Alert variant="danger">{error}</Alert>}
 			<Form onSubmit={handleSubmit}>
 				<Form.Group controlId="libelle">
 					<Form.Label className="fs-5 fw-bold">Label</Form.Label>
@@ -101,7 +104,7 @@ const CreateNewPossession = () => {
 					className="mt-4 fs-5 px-4 bg-light text-info border border-2 border-info"
 					type="submit"
 				>
-					Create
+					Ajouter
 				</Button>
 			</Form>
 		</Container>

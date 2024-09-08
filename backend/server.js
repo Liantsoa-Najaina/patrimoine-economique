@@ -36,6 +36,35 @@ app.get('/possession', async (req, res) => {
 	}
 });
 
+// Récupère une possession
+app.get('/possession/:libelle', async (req, res) => {
+	try {
+		const fileData = fileURLToPath(import.meta.url);
+		const dirname = path.dirname(fileData);
+		const filePath = path.join(dirname, 'data/data.json');
+
+		const data = await fs.readFile(filePath, 'utf8');
+		const jsonData = JSON.parse(data);
+
+		const patrimoine = jsonData.find(item => item.model === 'Patrimoine');
+
+		if (patrimoine && patrimoine.data && patrimoine.data.possessions) {
+			const { libelle } = req.params;
+			const possession = patrimoine.data.possessions.find(p => p.libelle === libelle);
+
+			if (possession) {
+				res.json(possession);
+			} else {
+				res.status(404).json({ message: "Possession non trouvée" });
+			}
+		} else {
+			res.status(404).json({ message: "Liste des possessions introuvable" });
+		}
+	} catch (error) {
+		res.status(500).send('Erreur lors de la lecture des données : ' + error);
+	}
+});
+
 // Création d'une nouvelle possession
 app.post('/possession/create', async (req, res) => {
 	try {
@@ -89,7 +118,7 @@ app.put('/possession/:libelle/update', async (req, res) => {
 
 		const patrimoineIndex = data.findIndex(item => item.model === 'Patrimoine');
 		if (patrimoineIndex === -1) {
-			return res.status(404).json({ message: "Patrimoine not found." });
+			return res.status(404).json({ message: "Patrimoine non trouvé" });
 		}
 
 		const possessions = data[patrimoineIndex].data.possessions;
@@ -132,7 +161,7 @@ app.put('/possession/:libelle/close', async (req, res) => {
 			return res.status(404).json({ message: 'Possession non trouvée' });
 		}
 
-		possessionToClose.dateFin = new Date();
+		possessionToClose.dateFin = new Date().toISOString();  // Set current date
 
 		await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf8');
 
@@ -270,5 +299,5 @@ app.post('/patrimoine/range', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-	console.log(`Server is running on http://localhost:${PORT}`);
+	console.log(`Server is running on port:${PORT}`);
 });
