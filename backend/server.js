@@ -181,7 +181,6 @@ app.get('/patrimoine/:date', async (req, res) => {
 		const fileContent = await fs.readFile(filePath, 'utf8');
 		const jsonData = JSON.parse(fileContent);
 
-		// Extract possessions data
 		const patrimoineData = jsonData.find(item => item.model === 'Patrimoine');
 		if (!patrimoineData) {
 			return res.status(404).json({ message: 'Patrimoine not found' });
@@ -189,7 +188,6 @@ app.get('/patrimoine/:date', async (req, res) => {
 
 		const { possesseur, possessions } = patrimoineData.data;
 
-		// Instantiate possessions
 		const possessionInstances = possessions.map(p => {
 			switch (p.model) {
 				case 'Flux':
@@ -231,7 +229,6 @@ app.post('/patrimoine/range', async (req, res) => {
 		const fileContent = await fs.readFile(filePath, 'utf8');
 		let jsonData;
 
-		// Check if fileContent is a string and parse it
 		if (typeof fileContent === 'string') {
 			try {
 				jsonData = JSON.parse(fileContent);
@@ -243,7 +240,6 @@ app.post('/patrimoine/range', async (req, res) => {
 			jsonData = fileContent;
 		}
 
-		// Extract patrimoine data
 		const patrimoineData = jsonData.find(item => item.model === 'Patrimoine');
 		if (!patrimoineData) {
 			return res.status(404).json({ message: 'Patrimoine not found' });
@@ -251,7 +247,6 @@ app.post('/patrimoine/range', async (req, res) => {
 
 		const { possesseur, possessions } = patrimoineData.data;
 
-		// Instantiate possessions
 		const possessionInstances = possessions.map(p => {
 			if (p.jour && p.valeurConstante !== undefined) {
 				return new Flux(p.possesseur, p.libelle, p.valeur, new Date(p.dateDebut), p.dateFin ? new Date(p.dateFin) : null, p.tauxAmortissement, p.jour, p.valeurConstante);
@@ -279,7 +274,11 @@ app.post('/patrimoine/range', async (req, res) => {
 		let currentDate = new Date(start);
 
 		while (currentDate <= end) {
-			const checkDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), jour);
+			const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+
+			const validDay = Math.min(jour, daysInMonth);
+
+			const checkDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), validDay);
 
 			if (checkDate >= start && checkDate <= end) {
 				let totalValue = patrimoine.getValeur(checkDate);
@@ -287,9 +286,9 @@ app.post('/patrimoine/range', async (req, res) => {
 				results.push({ date: checkDate.toISOString().split('T')[0], totalValue });
 			}
 
-			// Move to the next month
 			currentDate.setMonth(currentDate.getMonth() + 1);
 		}
+
 
 		res.status(200).json({ values: results });
 	} catch (err) {

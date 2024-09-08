@@ -1,5 +1,6 @@
-// eslint-disable-next-line no-unused-vars
+// PatrimoinePage.js
 import React, { useState } from "react";
+import axios from "axios";
 import { Button, Container, Row, Col, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import DatePicker from "../components/DatePicker";
@@ -9,26 +10,21 @@ const PatrimoinePage = () => {
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
 	const [chartData, setChartData] = useState([]);
-	const [timeUnit, setTimeUnit] = useState("jour");
+	const [selectedDay, setSelectedDay] = useState(1);
 	const [specificDate, setSpecificDate] = useState(new Date());
 	const [patrimoineValeur, setPatrimoineValeur] = useState(null);
 
 	const fetchData = async () => {
 		try {
-			const response = await fetch(
+			const response = await axios.post(
 				"http://localhost:3000/patrimoine/range",
 				{
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
-						type: timeUnit,
-						dateDebut: startDate.toISOString().split("T")[0],
-						dateFin: endDate.toISOString().split("T")[0],
-					}),
+					startDate: startDate.toISOString().split("T")[0],
+					endDate: endDate.toISOString().split("T")[0],
+					jour: selectedDay,
 				}
 			);
-			const data = await response.json();
-			setChartData(data.valeur);
+			setChartData(response.data.values);
 		} catch (error) {
 			console.error("Erreur lors de la récupération des données:", error);
 		}
@@ -36,80 +32,73 @@ const PatrimoinePage = () => {
 
 	const fetchPatrimoineValeur = async () => {
 		try {
-			const response = await fetch(
-				`http://localhost:3000/patrimoine/${
-					specificDate.toISOString().split("T")[0]
-				}`
+			const response = await axios.get(
+				`http://localhost:3000/patrimoine/${specificDate.toISOString().split("T")[0]}`
 			);
-			const data = await response.json();
-			setPatrimoineValeur(data.valeur);
+			setPatrimoineValeur(response.data.totalValue);
 		} catch (error) {
-			console.error(
-				"Erreur lors de la récupération de la valeur du patrimoine:",
-				error
-			);
+			console.error("Erreur lors de la récupération de la valeur du patrimoine:", error);
 		}
 	};
 
 	return (
 		<Container className="mb-5">
-			<h1 className="my-5 fw-normal text-secondary">Patrimony</h1>
-			<Row className="mb-3">
-				<Col>
-					<label className="fs-5 fw-bold">Start date :</label>
-					<DatePicker selectedDate={startDate} onDateChange={setStartDate} />
-				</Col>
-				<Col>
-					<label className="fs-5 fw-bold">End date :</label>
-					<DatePicker selectedDate={endDate} onDateChange={setEndDate} />
-				</Col>
-				<Col>
-					<label className="fs-5 fw-bold">Unit of time :</label>
-					<Form.Group controlId="timeUnitSelect">
+			<h3 className="my-5 fw-normal text-secondary">Statistiques du patrimoine économique</h3>
+
+			<Row>
+				<Col xs={12} md={4}>
+					<div className="d-flex flex-column">
+						<label className="fs-5 fw-bold">Date Début:</label>
+						<DatePicker selectedDate={startDate} onDateChange={setStartDate} />
+
+						<label className="fs-5 fw-bold mt-3">Date Fin:</label>
+						<DatePicker selectedDate={endDate} onDateChange={setEndDate} />
+
+						<label className="fs-5 fw-bold mt-3">Jour du mois:</label>
 						<Form.Control
-							as="select"
-							value={timeUnit}
-							onChange={(e) => setTimeUnit(e.target.value)}
+							type="number"
+							min="1"
+							max="31"
+							value={selectedDay}
+							onChange={(e) => setSelectedDay(e.target.value)}
+							className="fs-5 px-4 mt-3 btn-sm "
+						/>
+
+						<Button
+							className="fs-5 px-4 mt-3 btn-sm bg-light text-success border border-2 border-success"
+							onClick={fetchData}
 						>
-							<option value="jour">Day</option>
-							<option value="mois">Month</option>
-							<option value="année">Year</option>
-						</Form.Control>
-					</Form.Group>
+							Valider
+						</Button>
+					</div>
+				</Col>
+
+				<Col xs={12} md={8}>
+					<div className="mt-4 w-100">
+						<LineChart data={chartData} />
+					</div>
 				</Col>
 			</Row>
-			<Button
-				className="fs-5 px-4 bg-light text-success border border-2 border-success"
-				onClick={fetchData}
-			>
-				Validate
-			</Button>
-			<div className="mt-4">
-				<LineChart data={chartData} />
+
+			<div className="d-flex align-items-center mt-4 w-75 gap-3"> {/* Using flexbox here */}
+				<label className="fs-5 fw-bold me-3">Selectionner une date :</label>
+				<DatePicker
+					selectedDate={specificDate}
+					onDateChange={setSpecificDate}
+					className="me-3"
+				/>
+				<Button
+					className="bg-light border-2 border-success text-success px-4 py-2"
+					onClick={fetchPatrimoineValeur}
+				>
+					Valider
+				</Button>
 			</div>
 
-			<Row className="mt-4 w-50 mt-5">
-				<Col>
-					<label className="fs-5 fw-bold">Select a date :</label>
-					<DatePicker
-						selectedDate={specificDate}
-						onDateChange={setSpecificDate}
-					/>
-				</Col>
-				<Col>
-					<Button
-						className="bg-light border-2 border-success text-success px-4 py-2 me-1 mt-4"
-						onClick={fetchPatrimoineValeur}
-					>
-						Validate
-					</Button>
-				</Col>
-			</Row>
 
 			<div>
         <span className="fs-5">
-          Value of the Patrimony on the selected date{" "}
-			<span className="fw-bold">=&gt;</span>
+          Le total de votre patrimoine à cette date est : <span className="fw-bold">=&gt;</span>
         </span>
 				{patrimoineValeur !== null && (
 					<span className="mt-3">

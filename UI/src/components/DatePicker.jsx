@@ -11,8 +11,8 @@ const DatePickerComponent = ({ selectedDate, onDateChange, label }) => {
 			<DatePicker
 				selected={selectedDate}
 				onChange={(date) => onDateChange(date)}
-				className="form-control"
 				dateFormat="yyyy-MM-dd"
+				className="fs-5 px-4 mt-3 btn-sm form-control"
 			/>
 		</Form.Group>
 	);
