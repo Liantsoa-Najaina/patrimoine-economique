@@ -2,7 +2,6 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
-import { readFile, writeFile } from './data/index.js';
 import fs from "node:fs/promises";
 import Patrimoine from "../models/Patrimoine.js";
 import Possession from "../models/possessions/Possession.js";
@@ -75,7 +74,6 @@ app.post('/possession/create', async (req, res) => {
 	}
 });
 
-
 // Mise à jour ou modification des informations d'une possession
 app.put('/possession/:libelle/update', async (req, res) => {
 	try {
@@ -112,7 +110,6 @@ app.put('/possession/:libelle/update', async (req, res) => {
 	}
 });
 
-
 // Mets fin à une possession
 app.put('/possession/:libelle/close', async (req, res) => {
 	try {
@@ -144,8 +141,6 @@ app.put('/possession/:libelle/close', async (req, res) => {
 		res.status(500).json({ error: 'Erreur lors de la fermeture de la possession: ' + err.message });
 	}
 });
-
-
 
 // Calcule la valeur du patrimoine à une certaine date
 app.get('/patrimoine/:date', async (req, res) => {
@@ -196,7 +191,6 @@ app.get('/patrimoine/:date', async (req, res) => {
 		res.status(500).json({ message: 'Error calculating patrimoine value: ' + err.message });
 	}
 });
-
 
 // Calcule les valeurs du patrimoine entre deux dates
 app.post('/patrimoine/range', async (req, res) => {
@@ -274,7 +268,6 @@ app.post('/patrimoine/range', async (req, res) => {
 		res.status(500).json({ message: 'Error calculating patrimoine value.' });
 	}
 });
-
 
 app.listen(PORT, () => {
 	console.log(`Server is running on http://localhost:${PORT}`);

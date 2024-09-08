@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="105795f5-8bfc-456b-abcb-af5dcbf13c71" name="Changes" comment="feat: implement backend layout into the front-end">
+    <list default="true" id="105795f5-8bfc-456b-abcb-af5dcbf13c71" name="Changes" comment="feat: add app.jsx">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/components/CreatePossessionForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/components/CreatePossessionForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/components/PossessionTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/components/PossessionTable.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/components/UpdatePossessionForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/components/UpdatePossessionForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/containers/CreatePossessionContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/containers/CreatePossessionContainer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/containers/PossessionContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/containers/PossessionContainer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/containers/UpdatePossessionContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/containers/UpdatePossessionContainer.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +89,7 @@
       <recent name="$PROJECT_DIR$/ui/src/pages" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.start">
+  <component name="RunManager" selected="npm.dev">
     <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/ui/package.json" />
       <command value="run" />
@@ -118,8 +112,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.start" />
         <item itemvalue="npm.dev" />
+        <item itemvalue="npm.start" />
       </list>
     </recent_temporary>
   </component>
@@ -148,6 +142,9 @@
       <workItem from="1725640855100" duration="9294000" />
       <workItem from="1725674086351" duration="275000" />
       <workItem from="1725674390415" duration="2425000" />
+      <workItem from="1725695466281" duration="1921000" />
+      <workItem from="1725727702554" duration="43000" />
+      <workItem from="1725729969221" duration="1688000" />
     </task>
     <task id="LOCAL-00001" summary="fix: fix the non-working endpoints: get '/patrimoine/date' and post '/patrimoine/range'">
       <option name="closed" value="true" />
@@ -309,7 +306,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725683428607</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="feat: add app.jsx">
+      <option name="closed" value="true" />
+      <created>1725688610379</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1725688610379</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -346,6 +351,7 @@
     <MESSAGE value="fix: add forgotten imports" />
     <MESSAGE value="fix: fix calculating value between two dates to return an array of objects" />
     <MESSAGE value="feat: implement backend layout into the front-end" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: implement backend layout into the front-end" />
+    <MESSAGE value="feat: add app.jsx" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add app.jsx" />
   </component>
 </project>

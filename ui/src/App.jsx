@@ -15,7 +15,7 @@ const App = () => {
 
 				<Route path="/possession/create" element={<CreatePossessionContainer />} />
 
-				<Route path="/possession/edit/:libelle" element={<UpdatePossessionContainer />} />
+				<Route path="/possession/:libelle/update" element={<UpdatePossessionContainer />} />
 
 			</Routes>
 		</Router>
